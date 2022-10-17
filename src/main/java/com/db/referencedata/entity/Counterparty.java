@@ -11,7 +11,6 @@ import javax.persistence.Id;
 @Entity
 public class Counterparty {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer counterpartyId;
     String counterpartyName;
     String source;
