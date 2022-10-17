@@ -1,0 +1,14 @@
+[
+  {
+    "id": 1,
+    "name": "AAAAAA",
+    "source": "Source1",
+    "entity": "Santander"
+  },
+  {
+    "id": 2,
+    "name": "Rogelio y Asociados",
+    "source": "I made it up",
+    "entity": "Carrefú"
+  }
+]
