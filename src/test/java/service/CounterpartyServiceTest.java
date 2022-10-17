@@ -8,7 +8,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class CounterpartyServiceTest {
 
-    @Autowired
     CounterpartyService counterpartyService;
 
 
