@@ -11,7 +11,6 @@ import javax.persistence.Id;
 @Entity
 public class Book {
     @Id
-    @GeneratedValue(strategy= GenerationType.AUTO)
     Integer bookId;
     String bookName;
     String bookAddress;

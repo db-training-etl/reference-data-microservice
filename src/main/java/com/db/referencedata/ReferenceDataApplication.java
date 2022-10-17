@@ -15,26 +15,7 @@ import java.util.List;
 
 @SpringBootApplication
 public class ReferenceDataApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(ReferenceDataApplication.class, args);
     }
-
-    @Bean
-    CommandLineRunner runner(CounterpartyService counterpartyService) {
-        return args -> {
-            // read json and write to db
-            ObjectMapper mapper = new ObjectMapper();
-            TypeReference<List<Counterparty>> typeReference = new TypeReference<List<Counterparty>>(){};
-            InputStream inputStream = TypeReference.class.getResourceAsStream("/counterparty.json");
-            try {
-                List<Counterparty> counterparties = mapper.readValue(inputStream,typeReference);
-                counterpartyService.saveAll(counterparties);
-                System.out.println("Counterparties Saved!");
-            } catch (IOException e){
-                System.out.println("Unable to save counterparties: " + e.getMessage());
-            }
-        };
-    }
-
 }
