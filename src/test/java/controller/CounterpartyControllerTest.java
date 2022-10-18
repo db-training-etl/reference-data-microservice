@@ -30,7 +30,6 @@ public class CounterpartyControllerTest {
 
     }
 
-
     @Test
     public void findAllCounterpartiesTest(){
         setExampleCounterparties();
@@ -57,8 +56,6 @@ public class CounterpartyControllerTest {
 
         assertEquals(response, counterpartyController.saveAll(counterparties));
     }
-
-
 
 
     public void setExampleCounterparties(){
