@@ -2,6 +2,8 @@ package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.service.CounterpartyService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +23,13 @@ public class CounterpartyController {
         return counterpartyService.findAll();
     }
 
-    @PutMapping("")
-    public Counterparty save(@RequestBody Counterparty counterparty) {
-        return counterpartyService.save(counterparty);
+    @PatchMapping("")
+    public ResponseEntity<Counterparty> save(@RequestBody Counterparty counterparty) {
+        counterpartyService.save(counterparty);
+        return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK) ;
     }
 
-    @PutMapping("bulk")
+    @PatchMapping("bulk")
     public Iterable<Counterparty> saveAll(@RequestBody List<Counterparty> counterparties) {
         return counterpartyService.saveAll(counterparties);
     }

@@ -5,6 +5,8 @@ import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.w3c.dom.css.Counter;
 
 import java.util.LinkedList;
@@ -28,12 +30,24 @@ public class CounterpartyControllerTest {
 
     }
 
+
     @Test
-    public void findAllTest(){
+    public void findAllCounterpartiesTest(){
         setExampleCounterparties();
         given(counterpartyService.findAll()).willReturn(counterparties);
         assertEquals(counterparties, counterpartyController.findAll());
     }
+
+    @Test
+    public void saveOneCounterpartyTest(){
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        ResponseEntity<Counterparty> response = new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
+
+        given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
+
+        assertEquals(response, counterpartyController.save(counterparty));
+    }
+
 
 
     public void setExampleCounterparties(){
