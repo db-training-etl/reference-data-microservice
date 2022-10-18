@@ -4,12 +4,16 @@ import com.db.referencedata.ReferenceDataApplication;
 import com.db.referencedata.controller.CounterpartyController;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.service.CounterpartyService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
@@ -20,6 +24,7 @@ import java.util.List;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -38,20 +43,49 @@ public class CounterpartyControllerIT {
     @Autowired
     private MockMvc mockMvc;
 
+    @Autowired
+    ObjectMapper objectMapper;
+
     List<Counterparty> counterparties;
 
     @Test
-    public void findAllCounterparties() throws Exception{
+    public void findAllCounterpartiesTest() throws Exception{
         //given
         setExampleCounterparties();
         given(counterpartyService.findAll()).willReturn(counterparties);
-
         //when
         ResultActions response = mockMvc.perform(get("/counterparties"));
-        System.out.println("LAS CONTERTPARTIS --> " + counterparties);
         //then
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("Pepe")));
-        
+
+    }
+
+    @Test
+    public void saveOneCounterpartyTest() throws Exception{
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
+        given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
+
+        ResultActions response = mockMvc.perform(patch("/counterparties")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(counterparty)));
+
+        response.andExpect(status().isOk()).andDo(print());
+
+    }
+
+    @Test
+    public void saveAllCounterpartTest() throws Exception{
+        setExampleCounterparties();
+
+        given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
+
+        ResultActions response = mockMvc.perform(patch("/counterparties/bulk")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(objectMapper.writeValueAsString(counterparties)));
+
+        response.andExpect(status().isOk()).andDo(print());
+
     }
 
     public void setExampleCounterparties(){
