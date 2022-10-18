@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.w3c.dom.css.Counter;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -26,7 +25,6 @@ public class CounterpartyControllerTest {
     void setUp() {
         counterpartyService = mock(CounterpartyService.class);
         counterpartyController = new CounterpartyController(counterpartyService);
-
 
     }
 

@@ -1,59 +1,75 @@
 package service;
 
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.repository.CounterpartyRepository;
 import com.db.referencedata.service.CounterpartyService;
-import okhttp3.mockwebserver.MockResponse;
-import okhttp3.mockwebserver.MockWebServer;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
-import java.io.IOException;
-import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 
 public class CounterpartyServiceTest {
 
+    @Mock
+    CounterpartyRepository counterpartyRepository;
+    @InjectMocks
     CounterpartyService counterpartyService;
-    public MockWebServer mockBackEnd;
-    HashMap<String, Object> expectedResponse;
 
-    @AfterEach
-    void tearDown() throws IOException {
-        mockBackEnd.shutdown();
-    }
+    List<Counterparty> counterparties;
+
 
     @BeforeEach
-    void initialize() throws IOException {
+    public void setup(){
+        MockitoAnnotations.openMocks(this);
+    }
 
-        mockBackEnd = new MockWebServer();
 
-        //counterpartyService = new CounterpartyService(mockBackEnd.url("/").url().toString());
-
-        expectedResponse = new HashMap<>();
-        expectedResponse.put("images", 0);
-        expectedResponse.put("change_keys", 0);
-
+    @Test
+    public void findAllCounterpartiesTest(){
+        setExampleCounterparties();
+        when(counterpartyRepository.findAll()).thenReturn(counterparties);
+        assertNotNull(counterpartyService.findAll());
+        assertEquals(counterpartyService.findAll(),counterparties);
+    }
+    @Test
+    public void saveOneCounterpartyTest(){
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        when(counterpartyRepository.save(any(Counterparty.class))).thenReturn(counterparty);
+        assertNotNull(counterpartyService.save(new Counterparty()));
+        assertEquals(counterpartyService.save(counterparty),counterparty);
     }
 
     @Test
-    public void getCounterpartyBulk_Test(){
-        mockBackEnd.enqueue(new MockResponse()
-                .addHeader("Content-Type", "application/json")
-                );
-
-
-        Iterable<Counterparty> actual = counterpartyService.findAll();
-
-
-        assertEquals(expectedResponse.toString(),actual.toString());
-
+    public void saveAllTest(){
+        setExampleCounterparties();
+        when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
+        assertNotNull(counterpartyService.saveAll(new LinkedList<>()));
+        assertEquals(counterpartyService.saveAll(counterparties),counterparties);
     }
 
 
-    private String getCounterpartyExample(){
-        return "";
+    public void setExampleCounterparties(){
+        counterparties = new LinkedList<>();
+        counterparties.add(getExampleCounterparty(1,"Pepe", "Something", "Sevilla"));
+        counterparties.add(getExampleCounterparty(2,"Crea", "Tura", "Italia"));
+    }
+
+    public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){
+        Counterparty cpty = new Counterparty();
+        cpty.setCounterpartyId(id);
+        cpty.setCounterpartyName(name);
+        cpty.setSource(source);
+        cpty.setEntity(entity);
+
+        return cpty;
     }
 }
