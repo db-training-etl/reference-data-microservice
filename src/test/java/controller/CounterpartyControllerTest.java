@@ -48,6 +48,17 @@ public class CounterpartyControllerTest {
         assertEquals(response, counterpartyController.save(counterparty));
     }
 
+    @Test
+    public void saveAllTest(){
+        setExampleCounterparties();
+        ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
+
+        given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
+
+        assertEquals(response, counterpartyController.saveAll(counterparties));
+    }
+
+
 
 
     public void setExampleCounterparties(){

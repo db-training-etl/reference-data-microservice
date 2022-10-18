@@ -30,7 +30,8 @@ public class CounterpartyController {
     }
 
     @PatchMapping("bulk")
-    public Iterable<Counterparty> saveAll(@RequestBody List<Counterparty> counterparties) {
-        return counterpartyService.saveAll(counterparties);
+    public ResponseEntity<Iterable<Counterparty>> saveAll(@RequestBody List<Counterparty> counterparties) {
+        counterpartyService.saveAll(counterparties);
+        return new ResponseEntity<Iterable<Counterparty>>(counterparties, HttpStatus.OK);
     }
 }
