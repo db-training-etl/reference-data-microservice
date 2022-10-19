@@ -1,28 +1,27 @@
-package controller;
+package com.db.referencedata.service;
 
 import com.db.referencedata.ReferenceDataApplication;
-import com.db.referencedata.controller.CounterpartyController;
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.repository.CounterpartyRepository;
 import com.db.referencedata.service.CounterpartyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.ResultMatcher;
 
+import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
@@ -30,20 +29,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import static org.hamcrest.Matchers.is;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 @SpringBootTest(classes = ReferenceDataApplication.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class CounterpartyControllerIT {
+public class CounterpartyServiceIT {
 
     @MockBean
-    CounterpartyService counterpartyService;
-
+    CounterpartyRepository counterpartyRepository;
     @Autowired
     private MockMvc mockMvc;
-
     @Autowired
     ObjectMapper objectMapper;
 
@@ -52,11 +45,8 @@ public class CounterpartyControllerIT {
     @Test
     public void findOneCounterpartyByIdTest() throws Exception{
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
-
-        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
-
+        given(counterpartyRepository.findById(1)).willReturn(Optional.ofNullable(counterparty));
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
-
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("Pepe")));
 
     }
@@ -65,7 +55,7 @@ public class CounterpartyControllerIT {
     public void findAllCounterpartiesTest() throws Exception{
         //given
         setExampleCounterparties();
-        given(counterpartyService.findAll()).willReturn(counterparties);
+        given(counterpartyRepository.findAll()).willReturn(counterparties);
         //when
         ResultActions response = mockMvc.perform(get("/counterparties"));
         //then
@@ -77,21 +67,20 @@ public class CounterpartyControllerIT {
     public void saveOneCounterpartyTest() throws Exception{
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
+        given(counterpartyRepository.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
         ResultActions response = mockMvc.perform(patch("/counterparties")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(counterparty)));
 
         response.andExpect(status().isOk()).andDo(print());
-
     }
 
     @Test
     public void saveAllCounterpartTest() throws Exception{
         setExampleCounterparties();
 
-        given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
+        given(counterpartyRepository.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
 
         ResultActions response = mockMvc.perform(patch("/counterparties/bulk")
                 .contentType(MediaType.APPLICATION_JSON)

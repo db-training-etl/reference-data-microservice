@@ -1,4 +1,4 @@
-package controller;
+package com.db.referencedata.controller;
 
 import com.db.referencedata.controller.CounterpartyController;
 import com.db.referencedata.entity.Counterparty;
