@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("counterparties")
@@ -18,6 +19,11 @@ public class CounterpartyController {
         this.counterpartyService = counterpartyService;
     }
 
+    @GetMapping("{id}")
+    public Optional<Counterparty> findById(@PathVariable int id){
+        return counterpartyService.findById(id);
+    }
+
     @GetMapping("")
     public Iterable<Counterparty> findAll(){
         return counterpartyService.findAll();
@@ -26,7 +32,7 @@ public class CounterpartyController {
     @PatchMapping("")
     public ResponseEntity<Counterparty> save(@RequestBody Counterparty counterparty) {
         counterpartyService.save(counterparty);
-        return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK) ;
+        return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
     }
 
     @PatchMapping("bulk")

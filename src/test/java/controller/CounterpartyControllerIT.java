@@ -21,6 +21,7 @@ import org.springframework.test.web.servlet.ResultMatcher;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -47,6 +48,18 @@ public class CounterpartyControllerIT {
     ObjectMapper objectMapper;
 
     List<Counterparty> counterparties;
+
+    @Test
+    public void findOneCounterpartyByIdTest() throws Exception{
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
+        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+
+        ResultActions response = mockMvc.perform(get("/counterparties/1"));
+
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("Pepe")));
+
+    }
 
     @Test
     public void findAllCounterpartiesTest() throws Exception{

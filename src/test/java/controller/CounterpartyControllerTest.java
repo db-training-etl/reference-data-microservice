@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
@@ -29,9 +30,20 @@ public class CounterpartyControllerTest {
     }
 
     @Test
+    public void findOneCounterpartyByIdTest(){
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
+        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+
+        assertEquals(counterparty, counterpartyController.findById(1).get());
+    }
+
+    @Test
     public void findAllCounterpartiesTest(){
         setExampleCounterparties();
+
         given(counterpartyService.findAll()).willReturn(counterparties);
+
         assertEquals(counterparties, counterpartyController.findAll());
     }
 

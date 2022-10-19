@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CounterpartyService {
@@ -14,6 +15,10 @@ public class CounterpartyService {
 
     public CounterpartyService(CounterpartyRepository counterpartyRepository) {
         this.counterpartyRepository = counterpartyRepository;
+    }
+
+    public Optional<Counterparty> findById(int id) {
+        return counterpartyRepository.findById(id);
     }
 
     public Iterable<Counterparty> findAll() {

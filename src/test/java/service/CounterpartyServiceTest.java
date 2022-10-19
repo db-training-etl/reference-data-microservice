@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -32,6 +33,15 @@ public class CounterpartyServiceTest {
         MockitoAnnotations.openMocks(this);
     }
 
+
+    @Test
+    public void findOneCounterpartyByIdTest(){
+        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
+        when(counterpartyRepository.findById(1)).thenReturn(Optional.ofNullable(counterparty));
+
+        assertEquals(counterpartyService.findById(1).get(),counterparty);
+    }
 
     @Test
     public void findAllCounterpartiesTest(){
