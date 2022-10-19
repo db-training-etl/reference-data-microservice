@@ -51,13 +51,13 @@ public class CounterpartyControllerIT {
 
     @Test
     public void findOneCounterpartyByIdTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
 
         given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
 
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
 
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("Pepe")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("AAAAAA")));
 
     }
 
@@ -69,13 +69,13 @@ public class CounterpartyControllerIT {
         //when
         ResultActions response = mockMvc.perform(get("/counterparties"));
         //then
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("Pepe")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("AAAAAA")));
 
     }
 
     @Test
     public void saveOneCounterpartyTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
 
         given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -103,8 +103,9 @@ public class CounterpartyControllerIT {
 
     public void setExampleCounterparties(){
         counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"Pepe", "Something", "Sevilla"));
-        counterparties.add(getExampleCounterparty(2,"Crea", "Tura", "Italia"));
+        counterparties.add(getExampleCounterparty(1,"AAAAAA", "Source1", "Santander"));
+        counterparties.add(getExampleCounterparty(2,"BBB", "Source2", "BBVA"));
+        counterparties.add(getExampleCounterparty(3,"CCC", "Source3", "CAIXABANK"));
     }
 
     public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){

@@ -3,24 +3,20 @@ package com.db.referencedata.service;
 import com.db.referencedata.ReferenceDataApplication;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.repository.CounterpartyRepository;
-import com.db.referencedata.service.CounterpartyService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -44,10 +40,10 @@ public class CounterpartyServiceIT {
 
     @Test
     public void findOneCounterpartyByIdTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
         given(counterpartyRepository.findById(1)).willReturn(Optional.ofNullable(counterparty));
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("Pepe")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("AAAAAA")));
 
     }
 
@@ -59,13 +55,13 @@ public class CounterpartyServiceIT {
         //when
         ResultActions response = mockMvc.perform(get("/counterparties"));
         //then
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("Pepe")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("AAAAAA")));
 
     }
 
     @Test
     public void saveOneCounterpartyTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
 
         given(counterpartyRepository.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -92,8 +88,10 @@ public class CounterpartyServiceIT {
 
     public void setExampleCounterparties(){
         counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"Pepe", "Something", "Sevilla"));
-        counterparties.add(getExampleCounterparty(2,"Crea", "Tura", "Italia"));
+        counterparties.add(getExampleCounterparty(1,"AAAAAA", "Source1", "Santander"));
+        counterparties.add(getExampleCounterparty(2,"BBB", "Source2", "BBVA"));
+        counterparties.add(getExampleCounterparty(3,"CCC", "Source3", "CAIXABANK"));
+
     }
 
     public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){

@@ -70,8 +70,10 @@ public class CounterpartyControllerTest {
 
     public void setExampleCounterparties(){
         counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"Pepe", "Something", "Sevilla"));
-        counterparties.add(getExampleCounterparty(2,"Crea", "Tura", "Italia"));
+        counterparties.add(getExampleCounterparty(1,"AAAAAA", "Source1", "Santander"));
+        counterparties.add(getExampleCounterparty(2,"BBB", "Source2", "BBVA"));
+        counterparties.add(getExampleCounterparty(3,"CCC", "Source3", "CAIXABANK"));
+
     }
 
     public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){
