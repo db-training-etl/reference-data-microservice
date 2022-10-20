@@ -1,8 +1,8 @@
 package com.db.referencedata.service;
 
 import com.db.referencedata.ReferenceDataApplication;
-import com.db.referencedata.entity.Counterparty;
-import com.db.referencedata.repository.CounterpartyRepository;
+import com.db.referencedata.entity.Book;
+import com.db.referencedata.repository.BookRepository;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.TestUtils.getExampleBook;
+import static com.db.referencedata.utils.TestUtils.getExampleBooks;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,63 +28,63 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = ReferenceDataApplication.class)
 @AutoConfigureMockMvc(addFilters = false)
-public class CounterpartyServiceIT {
+public class BookServiceIT {
 
     @MockBean
-    CounterpartyRepository counterpartyRepository;
+    BookRepository bookRepository;
     @Autowired
     private MockMvc mockMvc;
     @Autowired
     ObjectMapper objectMapper;
 
-    List<Counterparty> counterparties;
+    List<Book> books;
 
     @Test
-    public void findOneCounterpartyByIdTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
+    public void findOneBookByIdTest() throws Exception{
+        Book book = getExampleBook(1,"AAAAAA", "Address1", "Santander");
 
-        given(counterpartyRepository.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(bookRepository.findById(1)).willReturn(Optional.ofNullable(book));
 
-        ResultActions response = mockMvc.perform(get("/counterparties/1"));
+        ResultActions response = mockMvc.perform(get("/books/1"));
 
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("AAAAAA")));
 
     }
 
     @Test
-    public void findAllCounterpartiesTest() throws Exception{
-        counterparties = getExampleCounterparties();
+    public void findAllBooksTest() throws Exception{
+        books = getExampleBooks();
 
-        given(counterpartyRepository.findAll()).willReturn(counterparties);
+        given(bookRepository.findAll()).willReturn(books);
 
-        ResultActions response = mockMvc.perform(get("/counterparties"));
+        ResultActions response = mockMvc.perform(get("/books"));
 
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("AAAAAA")));
 
     }
 
     @Test
-    public void saveOneCounterpartyTest() throws Exception{
-        Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
+    public void saveOneBookTest() throws Exception{
+        Book book = getExampleBook(1,"AAAAAA", "Address1", "Santander");
 
-        given(counterpartyRepository.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
+        given(bookRepository.save(book)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/counterparties")
+        ResultActions response = mockMvc.perform(patch("/books")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(counterparty)));
+                .content(objectMapper.writeValueAsString(book)));
 
         response.andExpect(status().isOk()).andDo(print());
     }
 
     @Test
-    public void saveMultipleCounterpartiesTest() throws Exception{
-        counterparties = getExampleCounterparties();
+    public void saveMultipleBooksTest() throws Exception{
+        books = getExampleBooks();
 
-        given(counterpartyRepository.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
+        given(bookRepository.saveAll(books)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/counterparties/bulk")
+        ResultActions response = mockMvc.perform(patch("/books/bulk")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(counterparties)));
+                .content(objectMapper.writeValueAsString(books)));
 
         response.andExpect(status().isOk()).andDo(print());
 

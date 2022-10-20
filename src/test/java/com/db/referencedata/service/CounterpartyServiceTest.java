@@ -47,22 +47,28 @@ public class CounterpartyServiceTest {
     @Test
     public void findAllCounterpartiesTest(){
         counterparties = getExampleCounterparties();
+
         when(counterpartyRepository.findAll()).thenReturn(counterparties);
+
         assertNotNull(counterpartyService.findAll());
         assertEquals(counterpartyService.findAll(),counterparties);
     }
     @Test
     public void saveOneCounterpartyTest(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
         when(counterpartyRepository.save(any(Counterparty.class))).thenReturn(counterparty);
+
         assertNotNull(counterpartyService.save(new Counterparty()));
         assertEquals(counterpartyService.save(counterparty),counterparty);
     }
 
     @Test
-    public void saveAllTest(){
+    public void saveMultipleCounterpartiesTest(){
         counterparties = getExampleCounterparties();
+
         when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
+
         assertNotNull(counterpartyService.saveAll(new LinkedList<>()));
         assertEquals(counterpartyService.saveAll(counterparties),counterparties);
     }

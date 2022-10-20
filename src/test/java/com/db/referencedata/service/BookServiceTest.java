@@ -36,7 +36,7 @@ public class BookServiceTest {
 
 
     @Test
-    public void findOneCounterpartyByIdTest(){
+    public void findOneBookByIdTest(){
         Book book = getExampleBook(1,"Pepe", "Something", "Sevilla");
 
         when(bookRepository.findById(1)).thenReturn(Optional.ofNullable(book));
@@ -45,24 +45,30 @@ public class BookServiceTest {
     }
 
     @Test
-    public void findAllCounterpartiesTest(){
+    public void findAllBooksTest(){
         books = getExampleBooks();
+
         when(bookRepository.findAll()).thenReturn(books);
+
         assertNotNull(bookService.findAll());
         assertEquals(bookService.findAll(),books);
     }
     @Test
-    public void saveOneCounterpartyTest(){
+    public void saveOneBookTest(){
         Book book = getExampleBook(1,"Pepe", "Something", "Sevilla");
+
         when(bookRepository.save(any(Book.class))).thenReturn(book);
+
         assertNotNull(bookService.save(new Book()));
         assertEquals(bookService.save(book),book);
     }
 
     @Test
-    public void saveAllTest(){
+    public void saveMultipleBooksTest(){
         books = getExampleBooks();
+
         when(bookRepository.saveAll(any())).thenReturn(books);
+
         assertNotNull(bookService.saveAll(new LinkedList<>()));
         assertEquals(bookService.saveAll(books),books);
     }

@@ -23,7 +23,7 @@ public class CounterpartyControllerTest {
     List<Counterparty> counterparties;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         counterpartyService = mock(CounterpartyService.class);
         counterpartyController = new CounterpartyController(counterpartyService);
 
@@ -58,7 +58,7 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void saveAllTest(){
+    public void saveMultipleCounterpartiesTest(){
         counterparties = getExampleCounterparties();
         ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
 

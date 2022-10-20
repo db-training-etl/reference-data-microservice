@@ -23,23 +23,23 @@ public class BookControllerTest {
     List<Book> books;
 
     @BeforeEach
-    void setUp() {
+    void setup() {
         bookService = mock(BookService.class);
         bookController = new BookController(bookService);
 
     }
 
     @Test
-    public void findOneCounterpartyByIdTest(){
-        Book counterparty = getExampleBook(1,"Pepe", "Something", "Sevilla");
+    public void findOneBookByIdTest(){
+        Book book = getExampleBook(1,"Pepe", "Something", "Sevilla");
 
-        given(bookService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(bookService.findById(1)).willReturn(Optional.ofNullable(book));
 
-        assertEquals(counterparty, bookController.findById(1).get());
+        assertEquals(book, bookController.findById(1).get());
     }
 
     @Test
-    public void findAllCounterpartiesTest(){
+    public void findAllBooksTest(){
         books = getExampleBooks();
 
         given(bookService.findAll()).willReturn(books);
@@ -48,7 +48,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void saveOneCounterpartyTest(){
+    public void saveOneBookTest(){
         Book book = getExampleBook(1,"Pepe", "Something", "Sevilla");
         ResponseEntity<Book> response = new ResponseEntity<Book>(book, HttpStatus.OK);
 
@@ -58,7 +58,7 @@ public class BookControllerTest {
     }
 
     @Test
-    public void saveAllTest(){
+    public void saveMultipleBooksTest(){
         books = getExampleBooks();
         ResponseEntity<List<Book>> response = new ResponseEntity<List<Book>>(books, HttpStatus.OK);
 
