@@ -1,6 +1,5 @@
 package com.db.referencedata.controller;
 
-import com.db.referencedata.controller.CounterpartyController;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,10 +7,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -40,7 +40,7 @@ public class CounterpartyControllerTest {
 
     @Test
     public void findAllCounterpartiesTest(){
-        setExampleCounterparties();
+        counterparties = getExampleCounterparties();
 
         given(counterpartyService.findAll()).willReturn(counterparties);
 
@@ -59,7 +59,7 @@ public class CounterpartyControllerTest {
 
     @Test
     public void saveAllTest(){
-        setExampleCounterparties();
+        counterparties = getExampleCounterparties();
         ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
 
         given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
@@ -68,21 +68,4 @@ public class CounterpartyControllerTest {
     }
 
 
-    public void setExampleCounterparties(){
-        counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"AAAAAA", "Source1", "Santander"));
-        counterparties.add(getExampleCounterparty(2,"BBB", "Source2", "BBVA"));
-        counterparties.add(getExampleCounterparty(3,"CCC", "Source3", "CAIXABANK"));
-
-    }
-
-    public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){
-        Counterparty cpty = new Counterparty();
-        cpty.setCounterpartyId(id);
-        cpty.setCounterpartyName(name);
-        cpty.setSource(source);
-        cpty.setEntity(entity);
-
-        return cpty;
-    }
 }
