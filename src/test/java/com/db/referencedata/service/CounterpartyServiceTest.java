@@ -2,7 +2,6 @@ package com.db.referencedata.service;
 
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.repository.CounterpartyRepository;
-import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -13,6 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
@@ -45,41 +46,31 @@ public class CounterpartyServiceTest {
 
     @Test
     public void findAllCounterpartiesTest(){
-        setExampleCounterparties();
+        counterparties = getExampleCounterparties();
+
         when(counterpartyRepository.findAll()).thenReturn(counterparties);
+
         assertNotNull(counterpartyService.findAll());
         assertEquals(counterpartyService.findAll(),counterparties);
     }
     @Test
     public void saveOneCounterpartyTest(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
+
         when(counterpartyRepository.save(any(Counterparty.class))).thenReturn(counterparty);
+
         assertNotNull(counterpartyService.save(new Counterparty()));
         assertEquals(counterpartyService.save(counterparty),counterparty);
     }
 
     @Test
-    public void saveAllTest(){
-        setExampleCounterparties();
+    public void saveMultipleCounterpartiesTest(){
+        counterparties = getExampleCounterparties();
+
         when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
+
         assertNotNull(counterpartyService.saveAll(new LinkedList<>()));
         assertEquals(counterpartyService.saveAll(counterparties),counterparties);
     }
 
-
-    public void setExampleCounterparties(){
-        counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"Pepe", "Something", "Sevilla"));
-        counterparties.add(getExampleCounterparty(2,"Crea", "Tura", "Italia"));
-    }
-
-    public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){
-        Counterparty cpty = new Counterparty();
-        cpty.setCounterpartyId(id);
-        cpty.setCounterpartyName(name);
-        cpty.setSource(source);
-        cpty.setEntity(entity);
-
-        return cpty;
-    }
 }

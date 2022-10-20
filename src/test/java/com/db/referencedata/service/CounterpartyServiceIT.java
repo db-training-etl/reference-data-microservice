@@ -13,10 +13,11 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -41,20 +42,23 @@ public class CounterpartyServiceIT {
     @Test
     public void findOneCounterpartyByIdTest() throws Exception{
         Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
+
         given(counterpartyRepository.findById(1)).willReturn(Optional.ofNullable(counterparty));
+
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
+
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("AAAAAA")));
 
     }
 
     @Test
     public void findAllCounterpartiesTest() throws Exception{
-        //given
-        setExampleCounterparties();
+        counterparties = getExampleCounterparties();
+
         given(counterpartyRepository.findAll()).willReturn(counterparties);
-        //when
+
         ResultActions response = mockMvc.perform(get("/counterparties"));
-        //then
+
         response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("AAAAAA")));
 
     }
@@ -73,8 +77,8 @@ public class CounterpartyServiceIT {
     }
 
     @Test
-    public void saveAllCounterpartTest() throws Exception{
-        setExampleCounterparties();
+    public void saveMultipleCounterpartiesTest() throws Exception{
+        counterparties = getExampleCounterparties();
 
         given(counterpartyRepository.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -84,24 +88,6 @@ public class CounterpartyServiceIT {
 
         response.andExpect(status().isOk()).andDo(print());
 
-    }
-
-    public void setExampleCounterparties(){
-        counterparties = new LinkedList<>();
-        counterparties.add(getExampleCounterparty(1,"AAAAAA", "Source1", "Santander"));
-        counterparties.add(getExampleCounterparty(2,"BBB", "Source2", "BBVA"));
-        counterparties.add(getExampleCounterparty(3,"CCC", "Source3", "CAIXABANK"));
-
-    }
-
-    public Counterparty getExampleCounterparty(Integer id, String name, String source, String entity){
-        Counterparty cpty = new Counterparty();
-        cpty.setCounterpartyId(id);
-        cpty.setCounterpartyName(name);
-        cpty.setSource(source);
-        cpty.setEntity(entity);
-
-        return cpty;
     }
 
 }
