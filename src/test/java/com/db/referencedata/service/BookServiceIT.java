@@ -47,7 +47,7 @@ public class BookServiceIT {
 
         ResultActions response = mockMvc.perform(get("/books/1"));
 
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.counterpartyName", is("AAAAAA")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$.bookName", is("AAAAAA")));
 
     }
 
@@ -59,7 +59,7 @@ public class BookServiceIT {
 
         ResultActions response = mockMvc.perform(get("/books"));
 
-        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].counterpartyName", is("AAAAAA")));
+        response.andExpect(status().isOk()).andDo(print()).andExpect(jsonPath("$[0].bookName", is("AAAAAA")));
 
     }
 
