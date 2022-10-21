@@ -12,8 +12,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;

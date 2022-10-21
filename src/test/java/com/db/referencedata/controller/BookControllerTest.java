@@ -10,8 +10,8 @@ import org.springframework.http.ResponseEntity;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleBook;
-import static com.db.referencedata.utils.TestUtils.getExampleBooks;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBook;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBooks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;

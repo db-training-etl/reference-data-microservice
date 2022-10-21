@@ -16,8 +16,8 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleBook;
-import static com.db.referencedata.utils.TestUtils.getExampleBooks;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBook;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBooks;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
