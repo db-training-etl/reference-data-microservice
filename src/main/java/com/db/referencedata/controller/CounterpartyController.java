@@ -1,6 +1,7 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.exception.NoValuesFoundException;
 import com.db.referencedata.service.CounterpartyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,24 +21,24 @@ public class CounterpartyController {
     }
 
     @GetMapping("{id}")
-    public Optional<Counterparty> findById(@PathVariable int id){
+    public Counterparty findById(@PathVariable int id) throws Exception {
         return counterpartyService.findById(id);
     }
 
     @GetMapping("")
-    public Iterable<Counterparty> findAll(){
+    public List<Counterparty> findAll() throws NoValuesFoundException {
         return counterpartyService.findAll();
     }
 
-    @PatchMapping("")
+    @PutMapping("")
     public ResponseEntity<Counterparty> save(@RequestBody Counterparty counterparty) {
         counterpartyService.save(counterparty);
         return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
     }
 
-    @PatchMapping("bulk")
-    public ResponseEntity<Iterable<Counterparty>> saveAll(@RequestBody List<Counterparty> counterparties) {
+    @PutMapping("bulk")
+    public ResponseEntity<List<Counterparty>> saveAll(@RequestBody List<Counterparty> counterparties) {
         counterpartyService.saveAll(counterparties);
-        return new ResponseEntity<Iterable<Counterparty>>(counterparties, HttpStatus.OK);
+        return new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
     }
 }
