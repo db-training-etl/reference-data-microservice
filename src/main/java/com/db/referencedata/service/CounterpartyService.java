@@ -7,6 +7,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.time.Instant;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
@@ -27,10 +30,16 @@ public class CounterpartyService {
         //call function in exception service to send to Exception Api
     }
 
-    public List<Counterparty> findAll() throws NoValuesFoundException{
+    public List<Counterparty> findAll() {
         if(counterpartyRepository.findAll().isEmpty())
-            throw new NoValuesFoundException("List of counterparties is empty");
-            //call function in exception service to send to Exception Api
+            try {
+                //call function in exception service to send to Exception Api
+                NoValuesFoundException exception = new NoValuesFoundException("List of counterparties is empty");
+                sendExceptionToService(exception);
+                throw exception;
+            } catch (NoValuesFoundException e) {
+                throw new RuntimeException(e);
+            }
         else{
             return counterpartyRepository.findAll();
         }
@@ -47,7 +56,10 @@ public class CounterpartyService {
         return counterpartyRepository.saveAll(counterparties);
     }
 
-/*    public void sendExceptionToService(String name,String type, String message,String trace, Date cobDate){
-        exceptionSenderService.sendException(name,type,message,trace,cobDate);
-    }*/
+    //TODO
+    public void sendExceptionToService(Exception exception){
+        StringWriter errors = new StringWriter();
+        exception.printStackTrace(new PrintWriter(errors));
+        exceptionSenderService.sendException(exception.getClass().toString(),exception.getCause().toString(),exception.getMessage(),errors.toString(),Date.from(Instant.now()));
+    }
 }

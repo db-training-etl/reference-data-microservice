@@ -53,22 +53,6 @@ public class CounterpartyController {
         return new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
     }
 
-
-/*    @ExceptionHandler(ConstraintViolationException.class)
-    public ResponseEntity handle(ConstraintViolationException constraintViolationException) {
-        Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
-        String errorMessage = "";
-        System.out.println("LAS VIOLATIONS: " + violations + "\n");
-        if (!violations.isEmpty()) {
-            StringBuilder builder = new StringBuilder();
-            violations.forEach(violation -> builder.append(" " + violation.getMessage()));
-            errorMessage = builder.toString();
-        } else {
-            errorMessage = "ConstraintViolationException occured.";
-        }
-        return new ResponseEntity<>(violations.toString(), HttpStatus.BAD_REQUEST);
-    }*/
-
     @ExceptionHandler(ConstraintViolationException.class)
     public void handleConstraintViolationException(ConstraintViolationException exception,
                                                    ServletWebRequest webRequest) throws IOException {

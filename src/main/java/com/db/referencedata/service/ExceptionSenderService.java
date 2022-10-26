@@ -1,34 +1,22 @@
 package com.db.referencedata.service;
 
+import com.db.referencedata.repository.WebclientRepository;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
+import java.time.Instant;
+import java.util.Date;
 import java.util.HashMap;
 
-public class ExceptionSenderService {
+public class ExceptionSenderService{
 
-    WebClient webClient;
+    WebclientRepository webclientRepository;
 
-    String url;
-
-    //Constructor for microservice consumer
-    public ExceptionSenderService() {
-        this.url = "localhost:8334"; //random port
-        webClient = WebClient.create(url);
-    }
-    //Constructor for testing use.
-    public ExceptionSenderService(String url) {
-        this.url = url;
-        webClient = WebClient.create(url);
+    public ExceptionSenderService(WebclientRepository webclientRepository) {
+        this.webclientRepository = webclientRepository;
     }
 
-    public HashMap sendException(String exceptionName) {
-
-        return webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("path").build())
-                .body(Mono.just(exceptionName), String.class)
-                .retrieve()
-                .bodyToMono(HashMap.class)
-                .block();
+    public HashMap sendException(String exceptionName, String cause, String message, String trace, Date date) {
+        return webclientRepository.sendException(exceptionName,cause,message,trace,date);
         }
 }
