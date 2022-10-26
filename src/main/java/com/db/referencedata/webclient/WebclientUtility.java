@@ -1,5 +1,6 @@
-package com.db.referencedata.repository;
+package com.db.referencedata.webclient;
 
+import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
@@ -26,9 +27,17 @@ public class WebclientUtility implements WebclientRepository{
 
     @Override
     public HashMap sendException(String exceptionName, String cause, String message, String trace, Date date) {
+
+        HashMap<String,Object> requestBody = new HashMap<>();
+        requestBody.put("name",exceptionName);
+        requestBody.put("type",cause);
+        requestBody.put("message",message);
+        requestBody.put("trace",trace);
+        requestBody.put("cobDate",date);
+
         return webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("path").build())
-                .body(Mono.just(exceptionName), String.class)
+                .uri(uriBuilder -> uriBuilder.path("/exceptions").build())
+                .body(BodyInserters.fromValue(requestBody))
                 .retrieve()
                 .bodyToMono(HashMap.class)
                 .block();
