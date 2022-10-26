@@ -7,11 +7,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.context.request.ServletWebRequest;
 
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -52,10 +54,11 @@ public class CounterpartyController {
     }
 
 
-    @ExceptionHandler(ConstraintViolationException.class)
+/*    @ExceptionHandler(ConstraintViolationException.class)
     public ResponseEntity handle(ConstraintViolationException constraintViolationException) {
         Set<ConstraintViolation<?>> violations = constraintViolationException.getConstraintViolations();
         String errorMessage = "";
+        System.out.println("LAS VIOLATIONS: " + violations + "\n");
         if (!violations.isEmpty()) {
             StringBuilder builder = new StringBuilder();
             violations.forEach(violation -> builder.append(" " + violation.getMessage()));
@@ -63,6 +66,12 @@ public class CounterpartyController {
         } else {
             errorMessage = "ConstraintViolationException occured.";
         }
-        return new ResponseEntity<>(errorMessage, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(violations.toString(), HttpStatus.BAD_REQUEST);
+    }*/
+
+    @ExceptionHandler(ConstraintViolationException.class)
+    public void handleConstraintViolationException(ConstraintViolationException exception,
+                                                   ServletWebRequest webRequest) throws IOException {
+        webRequest.getResponse().sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
     }
 }
