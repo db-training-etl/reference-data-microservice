@@ -2,6 +2,7 @@ package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.NoValuesFoundException;
+import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.CounterpartyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -30,8 +31,8 @@ public class CounterpartyController {
     }
 
     @GetMapping("{id}")
-    public Counterparty findById(@PathVariable int id) throws Exception {
-        return counterpartyService.findById(id);
+    public Counterparty findById(@PathVariable int id) {
+        return counterpartyService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Counterparty not found: " + id));
     }
 
     @GetMapping("")
