@@ -2,9 +2,7 @@ package com.db.referencedata.webclient;
 
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-import reactor.core.publisher.Mono;
 
-import java.util.Date;
 import java.util.HashMap;
 
 public class WebclientUtility implements WebclientRepository{
@@ -26,18 +24,11 @@ public class WebclientUtility implements WebclientRepository{
 
 
     @Override
-    public HashMap sendException(String exceptionName, String type, String message, String trace, Date date) {
-
-        HashMap<String,Object> requestBody = new HashMap<>();
-        requestBody.put("name",exceptionName);
-        requestBody.put("type",type);
-        requestBody.put("message",message);
-        requestBody.put("trace",trace);
-        requestBody.put("cobDate",date);
+    public HashMap sendException(HashMap exceptionLog) {
 
         return webClient.post()
                 .uri(uriBuilder -> uriBuilder.path("/exceptions").build())
-                .body(BodyInserters.fromValue(requestBody))
+                .body(BodyInserters.fromValue(exceptionLog))
                 .retrieve()
                 .bodyToMono(HashMap.class)
                 .block();

@@ -11,11 +11,17 @@ public class ExceptionSenderService{
 
     WebclientRepository webclientRepository;
 
+
+    public ExceptionSenderService() {
+
+    }
+
     public ExceptionSenderService(WebclientRepository webclientRepository) {
         this.webclientRepository = webclientRepository;
     }
 
-    public HashMap sendException(String exceptionName, String type, String message, String trace, Date date) {
-        return webclientRepository.sendException(exceptionName,type,message,trace,date);
+
+    public HashMap sendException(HashMap exceptionLog) {
+        return webclientRepository.sendException(exceptionLog);
     }
 }

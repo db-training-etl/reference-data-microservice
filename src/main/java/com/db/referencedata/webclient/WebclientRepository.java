@@ -8,6 +8,6 @@ import java.util.HashMap;
 @Repository
 public interface WebclientRepository {
 
-    HashMap sendException(String exceptionName, String type, String message, String trace, Date date);
+    HashMap sendException(HashMap exceptionLog);
 
 }
