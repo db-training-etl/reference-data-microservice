@@ -1,6 +1,7 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.exception.NoValuesFoundException;
 import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,16 +31,16 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void findOneCounterpartyByIdTest(){
+    public void findOneCounterpartyByIdTest() throws Exception {
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(counterpartyService.findById(1)).willReturn(counterparty);
 
-        assertEquals(counterparty, counterpartyController.findById(1).get());
+        assertEquals(counterparty, counterpartyController.findById(1));
     }
 
     @Test
-    public void findAllCounterpartiesTest(){
+    public void findAllCounterpartiesTest() throws NoValuesFoundException {
         counterparties = getExampleCounterparties();
 
         given(counterpartyService.findAll()).willReturn(counterparties);
@@ -58,7 +59,7 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void saveMultipleCounterpartiesTest(){
+    public void saveMultipleCounterpartiesTest() throws NoValuesFoundException {
         counterparties = getExampleCounterparties();
         ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
 
@@ -66,6 +67,7 @@ public class CounterpartyControllerTest {
 
         assertEquals(response, counterpartyController.saveAll(counterparties));
     }
+
 
 
 }

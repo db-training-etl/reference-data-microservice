@@ -5,6 +5,7 @@ import com.db.referencedata.exception.NoValuesFoundException;
 import com.db.referencedata.repository.CounterpartyRepository;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -25,8 +26,8 @@ public class CounterpartyService {
         this.counterpartyRepository = counterpartyRepository;
     }
 
-    public Counterparty findById(int id) throws Exception {
-        return counterpartyRepository.findById(id).orElseThrow(() -> new Exception("Counterparty not found: " + id));
+    public Optional<Counterparty> findById(int id) {
+        return counterpartyRepository.findById(id);
         //call function in exception service to send to Exception Api
     }
 
@@ -56,7 +57,6 @@ public class CounterpartyService {
         return counterpartyRepository.saveAll(counterparties);
     }
 
-    //TODO
     public void sendExceptionToService(Exception exception){
         StringWriter errors = new StringWriter();
         exception.printStackTrace(new PrintWriter(errors));

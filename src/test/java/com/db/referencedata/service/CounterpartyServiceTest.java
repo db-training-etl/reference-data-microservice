@@ -24,6 +24,9 @@ public class CounterpartyServiceTest {
 
     @Mock
     CounterpartyRepository counterpartyRepository;
+    @Mock
+    ExceptionSenderService exceptionSenderService;
+
     @InjectMocks
     CounterpartyService counterpartyService;
 
@@ -37,16 +40,23 @@ public class CounterpartyServiceTest {
 
 
     @Test
-    public void findOneCounterpartyByIdTest() throws Exception {
+    public void findOneCounterpartyById_Ok_Test() throws Exception {
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        when(counterpartyRepository.findById(1)).thenReturn(Optional.ofNullable(counterparty));
+        when(counterpartyRepository.findById(1)).thenReturn(Optional.of(counterparty));
 
         assertEquals(counterpartyService.findById(1).get(),counterparty);
     }
 
     @Test
-    public void findAllCounterpartiesTest(){
+    public void findOneCounterpartyById_SendIdNotFoundException_Test(){
+
+
+
+    }
+
+    @Test
+    public void findAllCounterparties_Ok_Test(){
         counterparties = getExampleCounterparties();
 
         when(counterpartyRepository.findAll()).thenReturn(counterparties);
@@ -55,7 +65,7 @@ public class CounterpartyServiceTest {
         assertEquals(counterpartyService.findAll(),counterparties);
     }
     @Test
-    public void saveOneCounterpartyTest(){
+    public void saveOneCounterparty_Ok_Test(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
         when(counterpartyRepository.save(any(Counterparty.class))).thenReturn(counterparty);
@@ -65,7 +75,7 @@ public class CounterpartyServiceTest {
     }
 
     @Test
-    public void saveMultipleCounterpartiesTest() throws NoValuesFoundException {
+    public void saveMultipleCounterparties_Ok_Test() throws NoValuesFoundException {
         counterparties = getExampleCounterparties();
 
         when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
