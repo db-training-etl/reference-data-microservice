@@ -5,18 +5,21 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
+import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.*;
+import reactor.core.publisher.Mono;
+import reactor.test.StepVerifier;
 
 import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class WebclientUtilityTest {
 
     WebclientUtility webclientUtility;
-
     public MockWebServer mockExceptionMicroservice;
 
     ObjectMapper objectMapper;
@@ -36,9 +39,7 @@ public class WebclientUtilityTest {
 
         objectMapper = new ObjectMapper();
 
-        expectedResponse = new HashMap<>();
-        expectedResponse.put("exceptionName", "");
-        expectedResponse.put("cobdate", "");
+        expectedResponse = new HashMap<>(getExampleExceptionLog());
     }
 
     @AfterAll
@@ -48,17 +49,15 @@ public class WebclientUtilityTest {
 
 
     @Test
-    public void sendExceptionToExceptionMicroserviceTest() throws JsonProcessingException {
+    public void sendExceptionToExceptionMicroserviceTest() throws JsonProcessingException, InterruptedException {
         mockExceptionMicroservice.enqueue(new MockResponse()
                 .addHeader("Content-Type", "application/json")
-                .setBody(objectMapper.writeValueAsString(expectedResponse))
+                .setBody(objectMapper.writeValueAsString(getExampleExceptionLog()))
         );
 
-        HashMap<String, Object> exceptionLog = getExampleExceptionLog();
+        HashMap exceptionInService = webclientUtility.sendException(getExampleExceptionLog());
 
-        HashMap<String, Object> actual = exceptionSenderService.sendException(exceptionLog);
-
-        assertEquals(expectedResponse.toString(), actual.toString());
+        assertEquals(expectedResponse, exceptionInService);
 
     }
 

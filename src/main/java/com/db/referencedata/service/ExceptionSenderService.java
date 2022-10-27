@@ -12,9 +12,9 @@ public class ExceptionSenderService{
     WebclientRepository webclientRepository;
 
 
-    public ExceptionSenderService() {
+/*    public ExceptionSenderService() {
 
-    }
+    }*/
 
     public ExceptionSenderService(WebclientRepository webclientRepository) {
         this.webclientRepository = webclientRepository;

@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
@@ -33,7 +34,7 @@ public class CounterpartyControllerTest {
     public void findOneCounterpartyByIdTest() throws Exception {
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        given(counterpartyService.findById(1)).willReturn(counterparty);
+        given(counterpartyService.findById(1)).willReturn(Optional.of(counterparty));
 
         assertEquals(counterparty, counterpartyController.findById(1));
     }

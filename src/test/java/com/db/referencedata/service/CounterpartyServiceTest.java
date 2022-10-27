@@ -56,7 +56,7 @@ public class CounterpartyServiceTest {
     }
 
     @Test
-    public void findAllCounterparties_Ok_Test(){
+    public void findAllCounterparties_Ok_Test() throws ListEmptyException {
         counterparties = getExampleCounterparties();
 
         when(counterpartyRepository.findAll()).thenReturn(counterparties);
