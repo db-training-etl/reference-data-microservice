@@ -1,7 +1,7 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
-import com.db.referencedata.exception.NoValuesFoundException;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,7 +9,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
@@ -40,7 +39,7 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void findAllCounterpartiesTest() throws NoValuesFoundException {
+    public void findAllCounterpartiesTest() throws ListEmptyException {
         counterparties = getExampleCounterparties();
 
         given(counterpartyService.findAll()).willReturn(counterparties);
@@ -59,7 +58,7 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void saveMultipleCounterpartiesTest() throws NoValuesFoundException {
+    public void saveMultipleCounterpartiesTest() throws ListEmptyException {
         counterparties = getExampleCounterparties();
         ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
 

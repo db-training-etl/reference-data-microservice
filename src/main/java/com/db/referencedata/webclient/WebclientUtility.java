@@ -26,11 +26,11 @@ public class WebclientUtility implements WebclientRepository{
 
 
     @Override
-    public HashMap sendException(String exceptionName, String cause, String message, String trace, Date date) {
+    public HashMap sendException(String exceptionName, String type, String message, String trace, Date date) {
 
         HashMap<String,Object> requestBody = new HashMap<>();
         requestBody.put("name",exceptionName);
-        requestBody.put("type",cause);
+        requestBody.put("type",type);
         requestBody.put("message",message);
         requestBody.put("trace",trace);
         requestBody.put("cobDate",date);

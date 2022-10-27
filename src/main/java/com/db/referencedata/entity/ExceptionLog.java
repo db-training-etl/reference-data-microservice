@@ -7,8 +7,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.util.Date;
 
-@Data
-@Entity
 public class ExceptionLog {
 
     public ExceptionLog(String name, String message, String trace, Date cobDate) {
@@ -19,9 +17,6 @@ public class ExceptionLog {
         this.cobDate = cobDate;
     }
 
-    @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
-    Integer id;
     String name;
     String type;
     String message;

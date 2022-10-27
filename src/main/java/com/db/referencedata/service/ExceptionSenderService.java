@@ -1,10 +1,12 @@
 package com.db.referencedata.service;
 
 import com.db.referencedata.webclient.WebclientRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.HashMap;
 
+@Service
 public class ExceptionSenderService{
 
     WebclientRepository webclientRepository;
@@ -13,7 +15,7 @@ public class ExceptionSenderService{
         this.webclientRepository = webclientRepository;
     }
 
-    public HashMap sendException(String exceptionName, String cause, String message, String trace, Date date) {
-        return webclientRepository.sendException(exceptionName,cause,message,trace,date);
+    public HashMap sendException(String exceptionName, String type, String message, String trace, Date date) {
+        return webclientRepository.sendException(exceptionName,type,message,trace,date);
     }
 }

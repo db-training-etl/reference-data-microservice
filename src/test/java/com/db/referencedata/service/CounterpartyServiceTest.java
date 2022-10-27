@@ -1,7 +1,7 @@
 package com.db.referencedata.service;
 
 import com.db.referencedata.entity.Counterparty;
-import com.db.referencedata.exception.NoValuesFoundException;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.repository.CounterpartyRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -75,7 +75,7 @@ public class CounterpartyServiceTest {
     }
 
     @Test
-    public void saveMultipleCounterparties_Ok_Test() throws NoValuesFoundException {
+    public void saveMultipleCounterparties_Ok_Test() throws ListEmptyException {
         counterparties = getExampleCounterparties();
 
         when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
