@@ -2,6 +2,8 @@ package com.db.referencedata.controller;
 
 import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.ExceptionSenderService;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -17,14 +19,16 @@ import java.util.Date;
 import java.util.HashMap;
 
 @ControllerAdvice
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
-    private final ExceptionSenderService exceptionSenderService;
+    private ExceptionSenderService exceptionSenderService;
 
 
-    public ExceptionHandlerController(ExceptionSenderService exceptionSenderService) {
+/*    public ExceptionHandlerController(ExceptionSenderService exceptionSenderService) {
         this.exceptionSenderService = exceptionSenderService;
-    }
+    }*/
 
 
     @ExceptionHandler(ResourceNotFoundException.class)
