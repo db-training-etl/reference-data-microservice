@@ -38,6 +38,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         sendExceptionLogToService(exceptionLog);
 
+
         return new ResponseEntity<>(exceptionLog, HttpStatus.NOT_FOUND);
     }
 

@@ -21,7 +21,7 @@ import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBooks;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -70,7 +70,7 @@ public class BookControllerIT {
 
         given(bookService.save(book)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/books")
+        ResultActions response = mockMvc.perform(put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(book)));
 
@@ -84,7 +84,7 @@ public class BookControllerIT {
 
         given(bookService.saveAll(books)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/books/bulk")
+        ResultActions response = mockMvc.perform(put("/books/bulk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(books)));
 

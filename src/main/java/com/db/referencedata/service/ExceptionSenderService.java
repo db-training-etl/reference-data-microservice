@@ -27,7 +27,7 @@ public class ExceptionSenderService{
 */
 
 
-    public HashMap sendException(HashMap exceptionLog) {
-        return webclientRepository.sendException(exceptionLog);
+    public void sendException(HashMap exceptionLog) {
+        webclientRepository.sendException(exceptionLog);
     }
 }
