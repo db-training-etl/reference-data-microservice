@@ -29,13 +29,13 @@ public class BookController {
         return bookService.findAll();
     }
 
-    @PatchMapping("")
+    @PutMapping("")
     public ResponseEntity<Book> save(@RequestBody Book book) {
         bookService.save(book);
         return new ResponseEntity<Book>(book, HttpStatus.OK);
     }
 
-    @PatchMapping("bulk")
+    @PutMapping("bulk")
     public ResponseEntity<Iterable<Book>> saveAll(@RequestBody List<Book> books) {
         bookService.saveAll(books);
         return new ResponseEntity<Iterable<Book>>(books, HttpStatus.OK);
