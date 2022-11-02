@@ -1,5 +1,6 @@
 package com.db.referencedata.controller;
 
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.ExceptionSenderService;
 import lombok.AllArgsConstructor;
@@ -26,11 +27,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     private ExceptionSenderService exceptionSenderService;
 
 
-/*    public ExceptionHandlerController(ExceptionSenderService exceptionSenderService) {
-        this.exceptionSenderService = exceptionSenderService;
-    }*/
-
-
     @ExceptionHandler(ResourceNotFoundException.class)
     public ResponseEntity<HashMap<String, Object>> resourceNotFoundException(ResourceNotFoundException exception) {
 
@@ -42,14 +38,15 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionLog, HttpStatus.NOT_FOUND);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<HashMap<String, Object>> globalExceptionHandler(Exception exception) {
+    @ExceptionHandler(ListEmptyException.class)
+    public ResponseEntity<HashMap<String, Object>> listEmptyException(ListEmptyException exception) {
 
         HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
 
         sendExceptionLogToService(exceptionLog);
 
-        return new ResponseEntity<>(exceptionLog, HttpStatus.INTERNAL_SERVER_ERROR);
+
+        return new ResponseEntity<>(exceptionLog, HttpStatus.NO_CONTENT);
     }
 
     /*
@@ -60,6 +57,16 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
     public void handleConstraintViolationException(ConstraintViolationException exception,
                                                    ServletWebRequest webRequest) throws IOException {
         webRequest.getResponse().sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<HashMap<String, Object>> globalExceptionHandler(Exception exception) {
+
+        HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
+
+        sendExceptionLogToService(exceptionLog);
+
+        return new ResponseEntity<>(exceptionLog, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 
 

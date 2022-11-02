@@ -49,6 +49,11 @@ public class WebclientUtilityTest {
 
 
     @Test
+    public void initializeWebclientWithoutURLTest(){
+        webclientUtility = new WebclientUtility();
+    }
+
+    @Test
     public void sendExceptionToExceptionMicroserviceTest() throws JsonProcessingException, InterruptedException {
         mockExceptionMicroservice.enqueue(new MockResponse()
                 .addHeader("Content-Type", "application/json")
