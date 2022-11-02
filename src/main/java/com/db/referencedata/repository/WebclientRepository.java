@@ -1,4 +1,4 @@
-package com.db.referencedata.webclient;
+package com.db.referencedata.repository;
 
 import org.springframework.stereotype.Repository;
 

@@ -8,8 +8,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
-import java.util.Optional;
+import java.io.PrintWriter;
+import java.io.StringWriter;
+import java.util.*;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
@@ -51,7 +52,7 @@ public class CounterpartyControllerTest {
     @Test
     public void saveOneCounterpartyTest(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
-        ResponseEntity<Counterparty> response = new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
+        ResponseEntity<Counterparty> response = new ResponseEntity<>(counterparty, HttpStatus.OK);
 
         given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -61,13 +62,11 @@ public class CounterpartyControllerTest {
     @Test
     public void saveMultipleCounterpartiesTest() throws ListEmptyException {
         counterparties = getExampleCounterparties();
-        ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
+        ResponseEntity<List<Counterparty>> response = new ResponseEntity<>(counterparties, HttpStatus.OK);
 
         given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
 
         assertEquals(response, counterpartyController.saveAll(counterparties));
     }
-
-
 
 }

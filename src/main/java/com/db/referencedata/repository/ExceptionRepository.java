@@ -1,23 +1,23 @@
-package com.db.referencedata.webclient;
+package com.db.referencedata.repository;
 
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 
-public class WebclientUtility implements WebclientRepository{
+public class ExceptionRepository implements WebclientRepository{
 
     WebClient webClient;
 
     String url;
 
     //Constructor for microservice consumer
-    public WebclientUtility() {
+    public ExceptionRepository() {
         this.url = "localhost:8334"; //random port
         webClient = WebClient.create(url);
     }
     //Constructor for testing use.
-    public WebclientUtility(String url) {
+    public ExceptionRepository(String url) {
         this.url = url;
         webClient = WebClient.create(url);
     }

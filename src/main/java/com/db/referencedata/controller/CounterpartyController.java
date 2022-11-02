@@ -24,19 +24,21 @@ public class CounterpartyController {
     }
 
     @GetMapping("{id}")
-    public Counterparty findById(@PathVariable int id) {
-        return counterpartyService.findById(id).orElseThrow(() -> new ResourceNotFoundException("Counterparty not found: " + id));
+    public ResponseEntity<Counterparty> findById(@PathVariable int id) {
+        return new ResponseEntity<>(counterpartyService.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Counterparty not found: " + id)),
+                HttpStatus.OK);
     }
 
     @GetMapping("")
-    public List<Counterparty> findAll() throws ListEmptyException {
-        return counterpartyService.findAll();
+    public ResponseEntity<List<Counterparty>> findAll() throws ListEmptyException {
+        return new ResponseEntity<>(counterpartyService.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("")
     public ResponseEntity<Counterparty> save(@Valid @RequestBody Counterparty counterparty){
         counterpartyService.save(counterparty);
-        return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
+        return new ResponseEntity<>(counterparty, HttpStatus.OK);
     }
 
     @PutMapping("bulk")
@@ -44,7 +46,7 @@ public class CounterpartyController {
             @RequestBody
             List<@Valid Counterparty> counterparties) throws ListEmptyException {
         counterpartyService.saveAll(counterparties);
-        return new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
+        return new ResponseEntity<>(counterparties, HttpStatus.OK);
     }
 
 }

@@ -1,25 +1,19 @@
-package com.db.referencedata.webclient;
+package com.db.referencedata.repository;
 
-import com.db.referencedata.service.ExceptionSenderService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
-import okhttp3.mockwebserver.RecordedRequest;
 import org.junit.jupiter.api.*;
-import reactor.core.publisher.Mono;
-import reactor.test.StepVerifier;
 
 import java.io.IOException;
-import java.util.Date;
 import java.util.HashMap;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class WebclientUtilityTest {
+public class ExceptionRepositoryTest {
 
-    WebclientUtility webclientUtility;
+    ExceptionRepository exceptionRepository;
     public MockWebServer mockExceptionMicroservice;
 
     ObjectMapper objectMapper;
@@ -35,7 +29,7 @@ public class WebclientUtilityTest {
 
     @BeforeEach
     public void initialize(){
-        webclientUtility = new WebclientUtility(mockExceptionMicroservice.url("/").url().toString());
+        exceptionRepository = new ExceptionRepository(mockExceptionMicroservice.url("/").url().toString());
 
         objectMapper = new ObjectMapper();
 
@@ -50,7 +44,7 @@ public class WebclientUtilityTest {
 
     @Test
     public void initializeWebclientWithoutURLTest(){
-        webclientUtility = new WebclientUtility();
+        exceptionRepository = new ExceptionRepository();
     }
 
     @Test
@@ -60,7 +54,7 @@ public class WebclientUtilityTest {
                 .setBody(objectMapper.writeValueAsString(getExampleExceptionLog()))
         );
 
-        HashMap exceptionInService = webclientUtility.sendException(getExampleExceptionLog());
+        HashMap exceptionInService = exceptionRepository.sendException(getExampleExceptionLog());
 
         assertEquals(expectedResponse, exceptionInService);
 
