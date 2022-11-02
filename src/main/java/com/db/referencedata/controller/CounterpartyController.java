@@ -29,13 +29,13 @@ public class CounterpartyController {
         return counterpartyService.findAll();
     }
 
-    @PatchMapping("")
+    @PutMapping("")
     public ResponseEntity<Counterparty> save(@RequestBody Counterparty counterparty) {
         counterpartyService.save(counterparty);
         return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
     }
 
-    @PatchMapping("bulk")
+    @PutMapping("bulk")
     public ResponseEntity<Iterable<Counterparty>> saveAll(@RequestBody List<Counterparty> counterparties) {
         counterpartyService.saveAll(counterparties);
         return new ResponseEntity<Iterable<Counterparty>>(counterparties, HttpStatus.OK);
