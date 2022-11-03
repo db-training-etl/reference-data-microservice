@@ -15,8 +15,7 @@ import java.util.Optional;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBook;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBooks;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -61,8 +60,7 @@ public class BookServiceTest {
 
         when(bookRepository.findAll()).thenReturn(books);
 
-        assertNotNull(bookService.findAll());
-        assertEquals(bookService.findAll(),books);
+        assertThrows(ListEmptyException.class, () -> bookService.findAll());
     }
 
     @Test

@@ -15,8 +15,7 @@ import java.util.Optional;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -64,8 +63,7 @@ public class CounterpartyServiceTest {
 
         when(counterpartyRepository.findAll()).thenReturn(counterparties);
 
-        assertNotNull(counterpartyService.findAll());
-        assertEquals(counterpartyService.findAll(),counterparties);
+        assertThrows(ListEmptyException.class, () -> counterpartyService.findAll());
     }
 
     @Test
