@@ -11,9 +11,9 @@ import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class ExceptionRepositoryTest {
+public class ExceptionRepositoryWebclientTest {
 
-    ExceptionRepository exceptionRepository;
+    ExceptionRepositoryException exceptionRepositoryWebclient;
     public MockWebServer mockExceptionMicroservice;
 
     ObjectMapper objectMapper;
@@ -29,7 +29,7 @@ public class ExceptionRepositoryTest {
 
     @BeforeEach
     public void initialize(){
-        exceptionRepository = new ExceptionRepository(mockExceptionMicroservice.url("/").url().toString());
+        exceptionRepositoryWebclient = new ExceptionRepositoryException(mockExceptionMicroservice.url("/").url().toString());
 
         objectMapper = new ObjectMapper();
 
@@ -44,7 +44,7 @@ public class ExceptionRepositoryTest {
 
     @Test
     public void initializeWebclientWithoutURLTest(){
-        exceptionRepository = new ExceptionRepository();
+        exceptionRepositoryWebclient = new ExceptionRepositoryException();
     }
 
     @Test
@@ -54,7 +54,7 @@ public class ExceptionRepositoryTest {
                 .setBody(objectMapper.writeValueAsString(getExampleExceptionLog()))
         );
 
-        HashMap exceptionInService = exceptionRepository.sendException(getExampleExceptionLog());
+        HashMap exceptionInService = exceptionRepositoryWebclient.sendException(getExampleExceptionLog());
 
         assertEquals(expectedResponse, exceptionInService);
 

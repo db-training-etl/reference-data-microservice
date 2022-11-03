@@ -1,6 +1,6 @@
 package com.db.referencedata.service;
 
-import com.db.referencedata.repository.WebclientRepository;
+import com.db.referencedata.repository.ExceptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,14 +17,14 @@ import static org.mockito.Mockito.*;
 public class ExceptionSenderServiceTest {
 
     @Mock
-    WebclientRepository webclientRepository;
+    ExceptionRepository exceptionRepository;
 
     ExceptionSenderService exceptionSenderService;
 
 
     @BeforeEach
     public void setup(){
-        exceptionSenderService = new ExceptionSenderService(webclientRepository);
+        exceptionSenderService = new ExceptionSenderService(exceptionRepository);
     }
 
 
@@ -33,7 +33,7 @@ public class ExceptionSenderServiceTest {
 
         exceptionSenderService.sendException(getExampleExceptionLog());
 
-        verify(webclientRepository,times(1)).sendException(any());
+        verify(exceptionRepository,times(1)).sendException(any());
     }
 
 

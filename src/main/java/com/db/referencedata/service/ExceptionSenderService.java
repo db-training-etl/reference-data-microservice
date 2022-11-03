@@ -1,6 +1,6 @@
 package com.db.referencedata.service;
 
-import com.db.referencedata.repository.WebclientRepository;
+import com.db.referencedata.repository.ExceptionRepository;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,21 +12,9 @@ import java.util.HashMap;
 @NoArgsConstructor
 public class ExceptionSenderService{
 
-    WebclientRepository webclientRepository;
-
-
-/*    public ExceptionSenderService() {
-
-    }*/
-
-/*
-    public ExceptionSenderService(WebclientRepository webclientRepository) {
-        this.webclientRepository = webclientRepository;
-    }
-*/
-
+    ExceptionRepository exceptionRepository;
 
     public void sendException(HashMap exceptionLog) {
-        webclientRepository.sendException(exceptionLog);
+        exceptionRepository.sendException(exceptionLog);
     }
 }

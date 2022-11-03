@@ -34,7 +34,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
         sendExceptionLogToService(exceptionLog);
 
-
         return new ResponseEntity<>(exceptionLog, HttpStatus.NOT_FOUND);
     }
 
@@ -44,7 +43,6 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
 
         sendExceptionLogToService(exceptionLog);
-
 
         return new ResponseEntity<>(exceptionLog, HttpStatus.NO_CONTENT);
     }
