@@ -9,7 +9,6 @@ import java.util.HashMap;
 
 @Service
 @AllArgsConstructor
-@NoArgsConstructor
 public class ExceptionSenderService{
 
     ExceptionRepository exceptionRepository;

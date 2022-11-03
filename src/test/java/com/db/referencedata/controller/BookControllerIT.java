@@ -45,7 +45,7 @@ public class BookControllerIT {
     public void findOneBookByIdTest() throws Exception{
         Book book = getExampleBook(1,"AAAAAA", "Source1", "Santander");
 
-        given(bookService.findById(1)).willReturn(Optional.ofNullable(book));
+        given(bookService.findById(1)).willReturn(book);
 
         ResultActions response = mockMvc.perform(get("/books/1"));
 

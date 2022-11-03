@@ -46,7 +46,7 @@ public class CounterpartyControllerIT {
     public void findOneCounterpartyByIdTest() throws Exception{
         Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
 
-        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(counterpartyService.findById(1)).willReturn(counterparty);
 
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
 

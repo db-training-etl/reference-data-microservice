@@ -13,7 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ExceptionRepositoryWebclientTest {
 
-    ExceptionRepositoryException exceptionRepositoryWebclient;
+    ExceptionRepositoryWebClient exceptionRepositoryWebclient;
     public MockWebServer mockExceptionMicroservice;
 
     ObjectMapper objectMapper;
@@ -29,7 +29,7 @@ public class ExceptionRepositoryWebclientTest {
 
     @BeforeEach
     public void initialize(){
-        exceptionRepositoryWebclient = new ExceptionRepositoryException(mockExceptionMicroservice.url("/").url().toString());
+        exceptionRepositoryWebclient = new ExceptionRepositoryWebClient(mockExceptionMicroservice.url("/").url().toString());
 
         objectMapper = new ObjectMapper();
 
@@ -44,7 +44,7 @@ public class ExceptionRepositoryWebclientTest {
 
     @Test
     public void initializeWebclientWithoutURLTest(){
-        exceptionRepositoryWebclient = new ExceptionRepositoryException();
+        exceptionRepositoryWebclient = new ExceptionRepositoryWebClient();
     }
 
     @Test

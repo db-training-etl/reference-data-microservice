@@ -1,6 +1,7 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Book;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.BookService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -33,18 +34,18 @@ public class BookControllerTest {
     public void findOneBookByIdTest(){
         Book book = getExampleBook(1,"Pepe", "Something", "Sevilla");
 
-        given(bookService.findById(1)).willReturn(Optional.ofNullable(book));
+        given(bookService.findById(1)).willReturn(book);
 
-        assertEquals(book, bookController.findById(1).get());
+        assertEquals(book, bookController.findById(1).getBody());
     }
 
     @Test
-    public void findAllBooksTest(){
+    public void findAllBooksTest() throws ListEmptyException {
         books = getExampleBooks();
 
         given(bookService.findAll()).willReturn(books);
 
-        assertEquals(books, bookController.findAll());
+        assertEquals(books, bookController.findAll().getBody());
     }
 
     @Test

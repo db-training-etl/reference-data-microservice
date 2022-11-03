@@ -1,7 +1,9 @@
 package com.db.referencedata.service;
 
+import com.db.referencedata.entity.Book;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.ListEmptyException;
+import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.repository.CounterpartyRepository;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,18 @@ public class CounterpartyService {
         this.counterpartyRepository = counterpartyRepository;
     }
 
-    public Optional<Counterparty> findById(int id) {
-        return counterpartyRepository.findById(id);
-        //call function in exception service to send to Exception Api
+    public Counterparty findById(int id) {
+        return counterpartyRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Counterparty not found: " + id));
     }
 
     public List<Counterparty> findAll() throws ListEmptyException {
-        if(counterpartyRepository.findAll().isEmpty())
+        List<Counterparty> counterparties = counterpartyRepository.findAll();
+
+        if(counterparties.isEmpty())
             throw new ListEmptyException("List of counterparties is empty");
         else{
-            return counterpartyRepository.findAll();
+            return counterparties;
         }
     }
 
@@ -35,9 +39,6 @@ public class CounterpartyService {
     }
 
     public List<Counterparty> saveAll(List<Counterparty> counterparties) throws ListEmptyException {
-        if(counterpartyRepository.saveAll(counterparties).isEmpty()){
-            throw new ListEmptyException("List of counterparties is empty");
-        }
         return counterpartyRepository.saveAll(counterparties);
     }
 

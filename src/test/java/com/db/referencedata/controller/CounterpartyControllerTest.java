@@ -35,9 +35,9 @@ public class CounterpartyControllerTest {
     public void findOneCounterpartyByIdTest() throws Exception {
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        given(counterpartyService.findById(1)).willReturn(Optional.of(counterparty));
+        given(counterpartyService.findById(1)).willReturn(counterparty);
 
-        assertEquals(counterparty, counterpartyController.findById(1));
+        assertEquals(counterparty, counterpartyController.findById(1).getBody());
     }
 
     @Test
@@ -46,7 +46,7 @@ public class CounterpartyControllerTest {
 
         given(counterpartyService.findAll()).willReturn(counterparties);
 
-        assertEquals(counterparties, counterpartyController.findAll());
+        assertEquals(counterparties, counterpartyController.findAll().getBody());
     }
 
     @Test

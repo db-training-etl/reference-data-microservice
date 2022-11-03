@@ -45,14 +45,7 @@ public class CounterpartyServiceTest {
 
         when(counterpartyRepository.findById(1)).thenReturn(Optional.of(counterparty));
 
-        assertEquals(counterpartyService.findById(1).get(),counterparty);
-    }
-
-    @Test
-    public void findOneCounterpartyById_SendIdNotFoundException_Test(){
-
-
-
+        assertEquals(counterpartyService.findById(1),counterparty);
     }
 
     @Test
@@ -64,6 +57,17 @@ public class CounterpartyServiceTest {
         assertNotNull(counterpartyService.findAll());
         assertEquals(counterpartyService.findAll(),counterparties);
     }
+
+    @Test
+    public void findAllCounterparties_EmptyList_Test() throws ListEmptyException {
+        counterparties = new LinkedList<>();
+
+        when(counterpartyRepository.findAll()).thenReturn(counterparties);
+
+        assertNotNull(counterpartyService.findAll());
+        assertEquals(counterpartyService.findAll(),counterparties);
+    }
+
     @Test
     public void saveOneCounterparty_Ok_Test(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");

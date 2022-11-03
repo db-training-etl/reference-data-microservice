@@ -25,9 +25,7 @@ public class CounterpartyController {
 
     @GetMapping("{id}")
     public ResponseEntity<Counterparty> findById(@PathVariable int id) {
-        return new ResponseEntity<>(counterpartyService.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Counterparty not found: " + id)),
-                HttpStatus.OK);
+        return new ResponseEntity<>(counterpartyService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("")
