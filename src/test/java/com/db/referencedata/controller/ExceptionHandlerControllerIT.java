@@ -36,18 +36,12 @@ public class ExceptionHandlerControllerIT {
      * Instead of returning 500 server error, returns 400 BAD REQUEST
      */
 
-    public void handleConstraintViolationExceptionTest(ConstraintViolationException exception,
-                                                   ServletWebRequest webRequest) throws IOException {
-        webRequest.getResponse().sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
+    public void handleConstraintViolationExceptionTest()  {
+
     }
 
 
-    public ResponseEntity<HashMap<String, Object>> globalExceptionHandler(Exception exception) {
+    public void globalExceptionHandler() {
 
-        HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
-
-        sendExceptionLogToService(exceptionLog);
-
-        return new ResponseEntity<>(exceptionLog, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 }
