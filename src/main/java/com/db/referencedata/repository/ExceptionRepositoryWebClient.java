@@ -1,10 +1,12 @@
 package com.db.referencedata.repository;
 
+import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import java.util.HashMap;
 
+@Repository
 public class ExceptionRepositoryWebClient implements ExceptionRepository {
 
     WebClient webClient;

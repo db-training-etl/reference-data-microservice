@@ -1,7 +1,6 @@
 package com.db.referencedata.controller;
 
-import com.db.referencedata.exception.ListEmptyException;
-import com.db.referencedata.exception.ResourceNotFoundException;
+import com.db.referencedata.exception.CustomException;
 import com.db.referencedata.service.ExceptionSenderService;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -20,31 +19,25 @@ import java.util.Date;
 import java.util.HashMap;
 
 @ControllerAdvice
-@AllArgsConstructor
-@NoArgsConstructor
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     private ExceptionSenderService exceptionSenderService;
 
-
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<HashMap<String, Object>> resourceNotFoundException(ResourceNotFoundException exception) {
-
-        HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
-
-        sendExceptionLogToService(exceptionLog);
-
-        return new ResponseEntity<>(exceptionLog, HttpStatus.NOT_FOUND);
+    public ExceptionHandlerController() {
     }
 
-    @ExceptionHandler(ListEmptyException.class)
-    public ResponseEntity<HashMap<String, Object>> listEmptyException(ListEmptyException exception) {
+    public ExceptionHandlerController(ExceptionSenderService exceptionSenderService) {
+        this.exceptionSenderService = exceptionSenderService;
+    }
+
+    @ExceptionHandler(CustomException.class)
+    public ResponseEntity<HashMap<String, Object>> handleCustomException(CustomException exception) {
 
         HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
 
         sendExceptionLogToService(exceptionLog);
 
-        return new ResponseEntity<>(exceptionLog, HttpStatus.NO_CONTENT);
+        return new ResponseEntity<>(exceptionLog, exception.getHttpStatus());
     }
 
     /*
