@@ -5,6 +5,6 @@ import java.util.HashMap;
 
 public interface ExceptionRepository {
 
-    HashMap sendException(HashMap exceptionLog);
+    void sendException(HashMap exceptionLog);
 
 }

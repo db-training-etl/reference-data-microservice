@@ -8,9 +8,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import java.io.PrintWriter;
-import java.io.StringWriter;
-import java.util.*;
+import java.util.List;
 
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
 import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;

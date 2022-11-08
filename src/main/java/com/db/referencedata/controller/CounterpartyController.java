@@ -2,7 +2,6 @@ package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.ListEmptyException;
-import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.CounterpartyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

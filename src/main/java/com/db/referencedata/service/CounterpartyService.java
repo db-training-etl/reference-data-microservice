@@ -1,6 +1,5 @@
 package com.db.referencedata.service;
 
-import com.db.referencedata.entity.Book;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.exception.ResourceNotFoundException;

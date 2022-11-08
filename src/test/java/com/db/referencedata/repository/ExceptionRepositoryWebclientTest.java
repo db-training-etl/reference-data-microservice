@@ -9,7 +9,7 @@ import org.junit.jupiter.api.*;
 import java.io.IOException;
 import java.util.HashMap;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class ExceptionRepositoryWebclientTest {
 
@@ -54,9 +54,7 @@ public class ExceptionRepositoryWebclientTest {
                 .setBody(objectMapper.writeValueAsString(getExampleExceptionLog()))
         );
 
-        HashMap exceptionInService = exceptionRepositoryWebclient.sendException(getExampleExceptionLog());
-
-        assertEquals(expectedResponse, exceptionInService);
+        exceptionRepositoryWebclient.sendException(getExampleExceptionLog());
 
     }
 

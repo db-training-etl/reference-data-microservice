@@ -1,15 +1,11 @@
 package com.db.referencedata.exception;
 
-import org.springframework.http.HttpStatus;
 
-public class ResourceNotFoundException extends CustomException {
+public class ResourceNotFoundException extends RuntimeException {
 
   public ResourceNotFoundException(String errorMessage) {
     super(errorMessage);
   }
 
 
-  public HttpStatus getHttpStatus(){
-    return HttpStatus.NOT_FOUND;
-  }
 }

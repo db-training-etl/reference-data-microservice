@@ -1,0 +1,196 @@
+openapi: 3.0.3
+info:
+  title: Reference Data Microservice
+  description:  Reference Data Microservice
+  version: 1.0.0
+servers:
+  - url: 'https'
+paths:
+  /counterparties:
+    get:
+      summary: Get counterparties
+      description: Get all counterparties
+      operationId: getCounterparties
+      tags:
+        - counterparties
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counterparty'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+    put:
+      summary: Create or update counterparty
+      description: Create or update counterparty
+      operationId: putCounterparty
+      tags:
+        - counterparties
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counterparty'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /counterparties/{id}:
+    get:
+      summary: Get counterparty
+      description: Get a counterparty using counterpartyId
+      operationId: getCounterparty
+      tags:
+        - counterparties
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counterparty'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /counterparties/bulk:
+    put:
+      summary: Create or update all counterparties in once
+      description: Create or update all counterparties in once
+      operationId: putAllCounterparties
+      tags:
+        - counterparties
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Counterparty'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /books:
+    get:
+      summary: Get books
+      description: Get all books
+      operationId: getBooks
+      tags:
+        - books
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+    put:
+      summary: Create or update book
+      description: Create or update book
+      operationId: putBook
+      tags:
+        - books
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /books/{id}:
+    get:
+      summary: Get book
+      description: Get a book using bookId
+      operationId: getBook
+      tags:
+        - books
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int32
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+  /books/bulk:
+    put:
+      summary: Create or update all books in once
+      description: Create or update all books in once
+      operationId: putAllBooks
+      tags:
+        - books
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Book'
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+
+components:
+  schemas:
+    Counterparty:
+      type: object
+      properties:
+        counterpartyId:
+          type: integer
+        counterpartyName:
+          type: string
+        source:
+          type: string
+        entity:
+          type: string
+    Book:
+      type: object
+      properties:
+        bookId:
+          type: integer
+        bookName:
+          type: string
+        source:
+          type: string
+        entity:
+          type: string

@@ -8,7 +8,6 @@ import com.db.referencedata.repository.BookRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class BookService {
@@ -28,7 +27,7 @@ public class BookService {
         List<Book> books = bookRepository.findAll();
 
         if(books.isEmpty())
-            throw new ListEmptyException("List of counterparties is empty");
+            throw new ListEmptyException("List of books is empty");
         else{
             return books;
         }

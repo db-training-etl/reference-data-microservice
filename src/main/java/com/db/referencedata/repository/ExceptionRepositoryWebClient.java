@@ -18,6 +18,7 @@ public class ExceptionRepositoryWebClient implements ExceptionRepository {
         this.url = "localhost:8334"; //random port
         webClient = WebClient.create(url);
     }
+
     //Constructor for testing use.
     public ExceptionRepositoryWebClient(String url) {
         this.url = url;
@@ -26,13 +27,12 @@ public class ExceptionRepositoryWebClient implements ExceptionRepository {
 
 
     @Override
-    public HashMap sendException(HashMap exceptionLog) {
-
-        return webClient.post()
-                .uri(uriBuilder -> uriBuilder.path("/exceptions").build())
-                .body(BodyInserters.fromValue(exceptionLog))
-                .retrieve()
-                .bodyToMono(HashMap.class)
-                .block();
+    public void sendException(HashMap exceptionLog) {
+        webClient.post()
+            .uri(uriBuilder -> uriBuilder.path("/exceptions").build())
+            .body(BodyInserters.fromValue(exceptionLog))
+            .retrieve()
+            .bodyToMono(HashMap.class)
+            .block();
     }
 }

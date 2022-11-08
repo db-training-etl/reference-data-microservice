@@ -1,63 +1,45 @@
 package com.db.referencedata.controller;
 
-import com.db.referencedata.exception.CustomException;
+import com.db.referencedata.exception.ListEmptyException;
+import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.ExceptionSenderService;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.context.request.ServletWebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import javax.validation.ConstraintViolationException;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Date;
 import java.util.HashMap;
 
 @ControllerAdvice
+@AllArgsConstructor
 public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
 
     private ExceptionSenderService exceptionSenderService;
 
-    public ExceptionHandlerController() {
-    }
-
-    public ExceptionHandlerController(ExceptionSenderService exceptionSenderService) {
-        this.exceptionSenderService = exceptionSenderService;
-    }
-
-    @ExceptionHandler(CustomException.class)
-    public ResponseEntity<HashMap<String, Object>> handleCustomException(CustomException exception) {
+    @ExceptionHandler(value = {ResourceNotFoundException.class, NullPointerException.class, ConstraintViolationException.class})
+    public ResponseEntity<HashMap<String, Object>> handleBadRequestException(RuntimeException exception) {
 
         HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
 
         sendExceptionLogToService(exceptionLog);
 
-        return new ResponseEntity<>(exceptionLog, exception.getHttpStatus());
+        return new ResponseEntity<>(exceptionLog, HttpStatus.BAD_REQUEST);
     }
 
-    /*
-    * ConstraintViolationException triggers when Validator found null element in entity.
-    * Instead of returning 500 server error, returns 400 BAD REQUEST
-    */
-    @ExceptionHandler(ConstraintViolationException.class)
-    public void handleConstraintViolationException(ConstraintViolationException exception,
-                                                   ServletWebRequest webRequest) throws IOException {
-        webRequest.getResponse().sendError(HttpStatus.BAD_REQUEST.value(), exception.getMessage());
-    }
-
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<HashMap<String, Object>> globalExceptionHandler(Exception exception) {
+    @ExceptionHandler(ListEmptyException.class)
+    public ResponseEntity<HashMap<String, Object>> handleNoContentException(ListEmptyException exception) {
 
         HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
 
         sendExceptionLogToService(exceptionLog);
 
-        return new ResponseEntity<>(exceptionLog, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(exceptionLog, HttpStatus.NO_CONTENT);
     }
 
 
