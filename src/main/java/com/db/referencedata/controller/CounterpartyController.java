@@ -1,14 +1,17 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.CounterpartyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
+@Validated
 @RestController
 @RequestMapping("counterparties")
 public class CounterpartyController {
@@ -20,24 +23,25 @@ public class CounterpartyController {
     }
 
     @GetMapping("{id}")
-    public Optional<Counterparty> findById(@PathVariable int id){
-        return counterpartyService.findById(id);
+    public ResponseEntity<Counterparty> findById(@PathVariable int id) {
+        return new ResponseEntity<>(counterpartyService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("")
-    public Iterable<Counterparty> findAll(){
-        return counterpartyService.findAll();
+    public ResponseEntity<List<Counterparty>> findAll() throws ListEmptyException {
+        return new ResponseEntity<>(counterpartyService.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("")
-    public ResponseEntity<Counterparty> save(@RequestBody Counterparty counterparty) {
+    public ResponseEntity<Counterparty> save(@Valid @RequestBody Counterparty counterparty){
         counterpartyService.save(counterparty);
-        return new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
+        return new ResponseEntity<>(counterparty, HttpStatus.OK);
     }
 
     @PutMapping("bulk")
-    public ResponseEntity<Iterable<Counterparty>> saveAll(@RequestBody List<Counterparty> counterparties) {
+    public ResponseEntity<List<Counterparty>> saveAll(@RequestBody List<@Valid Counterparty> counterparties) throws ListEmptyException {
         counterpartyService.saveAll(counterparties);
-        return new ResponseEntity<Iterable<Counterparty>>(counterparties, HttpStatus.OK);
+        return new ResponseEntity<>(counterparties, HttpStatus.OK);
     }
+
 }

@@ -1,6 +1,7 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Counterparty;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.CounterpartyService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,10 +9,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
@@ -30,27 +30,27 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void findOneCounterpartyByIdTest(){
+    public void findOneCounterpartyByIdTest() throws Exception {
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
 
-        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(counterpartyService.findById(1)).willReturn(counterparty);
 
-        assertEquals(counterparty, counterpartyController.findById(1).get());
+        assertEquals(counterparty, counterpartyController.findById(1).getBody());
     }
 
     @Test
-    public void findAllCounterpartiesTest(){
+    public void findAllCounterpartiesTest() throws ListEmptyException {
         counterparties = getExampleCounterparties();
 
         given(counterpartyService.findAll()).willReturn(counterparties);
 
-        assertEquals(counterparties, counterpartyController.findAll());
+        assertEquals(counterparties, counterpartyController.findAll().getBody());
     }
 
     @Test
     public void saveOneCounterpartyTest(){
         Counterparty counterparty = getExampleCounterparty(1,"Pepe", "Something", "Sevilla");
-        ResponseEntity<Counterparty> response = new ResponseEntity<Counterparty>(counterparty, HttpStatus.OK);
+        ResponseEntity<Counterparty> response = new ResponseEntity<>(counterparty, HttpStatus.OK);
 
         given(counterpartyService.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
@@ -58,14 +58,13 @@ public class CounterpartyControllerTest {
     }
 
     @Test
-    public void saveMultipleCounterpartiesTest(){
+    public void saveMultipleCounterpartiesTest() throws ListEmptyException {
         counterparties = getExampleCounterparties();
-        ResponseEntity<List<Counterparty>> response = new ResponseEntity<List<Counterparty>>(counterparties, HttpStatus.OK);
+        ResponseEntity<List<Counterparty>> response = new ResponseEntity<>(counterparties, HttpStatus.OK);
 
         given(counterpartyService.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
 
         assertEquals(response, counterpartyController.saveAll(counterparties));
     }
-
 
 }

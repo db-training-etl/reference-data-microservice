@@ -14,10 +14,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.List;
-import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
@@ -46,7 +45,7 @@ public class CounterpartyControllerIT {
     public void findOneCounterpartyByIdTest() throws Exception{
         Counterparty counterparty = getExampleCounterparty(1,"AAAAAA", "Source1", "Santander");
 
-        given(counterpartyService.findById(1)).willReturn(Optional.ofNullable(counterparty));
+        given(counterpartyService.findById(1)).willReturn(counterparty);
 
         ResultActions response = mockMvc.perform(get("/counterparties/1"));
 

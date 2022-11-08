@@ -1,13 +1,13 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Book;
+import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("books")
@@ -20,13 +20,13 @@ public class BookController {
     }
 
     @GetMapping("{id}")
-    public Optional<Book> findById(@PathVariable int id){
-        return bookService.findById(id);
+    public ResponseEntity<Book> findById(@PathVariable int id){
+        return new ResponseEntity<>(bookService.findById(id), HttpStatus.OK);
     }
 
     @GetMapping("")
-    public Iterable<Book> findAll(){
-        return bookService.findAll();
+    public ResponseEntity<List<Book>> findAll() throws ListEmptyException {
+        return new ResponseEntity<>(bookService.findAll(), HttpStatus.OK);
     }
 
     @PutMapping("")
@@ -36,8 +36,7 @@ public class BookController {
     }
 
     @PutMapping("bulk")
-    public ResponseEntity<Iterable<Book>> saveAll(@RequestBody List<Book> books) {
-        bookService.saveAll(books);
-        return new ResponseEntity<Iterable<Book>>(books, HttpStatus.OK);
+    public ResponseEntity<List<Book>> saveAll(@RequestBody List<Book> books) {
+        return new ResponseEntity<List<Book>>(bookService.saveAll(books), HttpStatus.OK);
     }
 }
