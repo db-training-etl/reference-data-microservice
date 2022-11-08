@@ -39,9 +39,7 @@ public class CounterpartyController {
     }
 
     @PutMapping("bulk")
-    public ResponseEntity<List<Counterparty>> saveAll(
-            @RequestBody
-            List<@Valid Counterparty> counterparties) throws ListEmptyException {
+    public ResponseEntity<List<Counterparty>> saveAll(@RequestBody List<@Valid Counterparty> counterparties) throws ListEmptyException {
         counterpartyService.saveAll(counterparties);
         return new ResponseEntity<>(counterparties, HttpStatus.OK);
     }
