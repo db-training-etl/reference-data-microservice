@@ -6,7 +6,7 @@ import com.db.referencedata.entity.Counterparty;
 import java.util.LinkedList;
 import java.util.List;
 
-public class TestUtils {
+public class ReferenceDataUtils {
 
     public static List<Counterparty> getExampleCounterparties(){
         List<Counterparty> counterparties = new LinkedList<>();
