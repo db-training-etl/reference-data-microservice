@@ -16,12 +16,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.TestUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -69,7 +69,7 @@ public class CounterpartyServiceIT {
 
         given(counterpartyRepository.save(counterparty)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/counterparties")
+        ResultActions response = mockMvc.perform(put("/counterparties")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(counterparty)));
 
@@ -82,7 +82,7 @@ public class CounterpartyServiceIT {
 
         given(counterpartyRepository.saveAll(counterparties)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/counterparties/bulk")
+        ResultActions response = mockMvc.perform(put("/counterparties/bulk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(counterparties)));
 

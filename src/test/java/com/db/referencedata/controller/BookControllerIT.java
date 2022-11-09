@@ -16,12 +16,12 @@ import org.springframework.test.web.servlet.ResultActions;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.TestUtils.getExampleBook;
-import static com.db.referencedata.utils.TestUtils.getExampleBooks;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBook;
+import static com.db.referencedata.utils.ReferenceDataUtils.getExampleBooks;
 import static org.hamcrest.Matchers.is;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.patch;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -45,7 +45,7 @@ public class BookControllerIT {
     public void findOneBookByIdTest() throws Exception{
         Book book = getExampleBook(1,"AAAAAA", "Source1", "Santander");
 
-        given(bookService.findById(1)).willReturn(Optional.ofNullable(book));
+        given(bookService.findById(1)).willReturn(book);
 
         ResultActions response = mockMvc.perform(get("/books/1"));
 
@@ -70,7 +70,7 @@ public class BookControllerIT {
 
         given(bookService.save(book)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/books")
+        ResultActions response = mockMvc.perform(put("/books")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(book)));
 
@@ -84,7 +84,7 @@ public class BookControllerIT {
 
         given(bookService.saveAll(books)).willAnswer((invocation) -> invocation.getArgument(0));
 
-        ResultActions response = mockMvc.perform(patch("/books/bulk")
+        ResultActions response = mockMvc.perform(put("/books/bulk")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(books)));
 
