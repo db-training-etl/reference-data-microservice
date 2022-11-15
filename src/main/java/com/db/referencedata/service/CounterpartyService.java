@@ -41,5 +41,9 @@ public class CounterpartyService {
         return counterpartyRepository.saveAll(counterparties);
     }
 
+/*    public List<Counterparty> saveChunk(List<Counterparty> counterparties) throws ListEmptyException {
+        return counterpartyRepository.saveAll(counterparties);
+    }*/
+
 
 }

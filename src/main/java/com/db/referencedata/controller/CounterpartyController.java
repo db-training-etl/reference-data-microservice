@@ -1,5 +1,6 @@
 package com.db.referencedata.controller;
 
+import com.db.referencedata.entity.ChunkCounterparties;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.CounterpartyService;
@@ -43,5 +44,11 @@ public class CounterpartyController {
         counterpartyService.saveAll(counterparties);
         return new ResponseEntity<>(counterparties, HttpStatus.OK);
     }
+
+/*    @PutMapping("chunk")
+    public ResponseEntity<List<Counterparty>> saveChunk(@Valid @RequestBody ChunkCounterparties chunkCounterparties) throws ListEmptyException {
+        counterpartyService.saveChunk(chunkCounterparties.getData());
+        return new ResponseEntity<>(chunkCounterparties.getData(), HttpStatus.OK);
+    }*/
 
 }
