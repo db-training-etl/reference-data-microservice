@@ -1,10 +1,9 @@
 package com.db.referencedata.repository;
 
 
-import java.util.HashMap;
+import com.db.referencedata.entity.ExceptionLog;
 
 public interface ExceptionRepository {
-
-    void sendException(HashMap exceptionLog);
+    void sendException(ExceptionLog exceptionLog);
 
 }

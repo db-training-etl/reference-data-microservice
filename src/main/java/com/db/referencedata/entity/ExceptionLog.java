@@ -1,6 +1,6 @@
 package com.db.referencedata.entity;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -10,8 +10,9 @@ import java.util.Date;
 
 @Data
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class ExceptionLog {
-
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     Integer id;
