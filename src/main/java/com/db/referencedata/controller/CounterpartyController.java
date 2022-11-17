@@ -45,10 +45,10 @@ public class CounterpartyController {
         return new ResponseEntity<>(counterparties, HttpStatus.OK);
     }
 
-/*    @PutMapping("chunk")
+    @PutMapping("chunk")
     public ResponseEntity<List<Counterparty>> saveChunk(@Valid @RequestBody ChunkCounterparties chunkCounterparties) throws ListEmptyException {
-        counterpartyService.saveChunk(chunkCounterparties.getData());
-        return new ResponseEntity<>(chunkCounterparties.getData(), HttpStatus.OK);
-    }*/
+        counterpartyService.saveChunk(chunkCounterparties.getChunkList());
+        return new ResponseEntity<>(chunkCounterparties.getChunkList(), HttpStatus.OK);
+    }
 
 }

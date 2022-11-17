@@ -15,5 +15,5 @@ public class ChunkCounterparties {
     @NotNull
     Integer size;
     @NotNull
-    List<Counterparty> data;
+    List<Counterparty> chunkList;
 }
