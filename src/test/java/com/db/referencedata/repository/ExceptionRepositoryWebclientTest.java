@@ -1,5 +1,6 @@
 package com.db.referencedata.repository;
 
+import com.db.referencedata.entity.ExceptionLog;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import okhttp3.mockwebserver.MockResponse;
@@ -7,7 +8,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.*;
 
 import java.io.IOException;
-import java.util.HashMap;
+import java.util.Date;
 
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -18,7 +19,7 @@ public class ExceptionRepositoryWebclientTest {
 
     ObjectMapper objectMapper;
 
-    HashMap<String, Object> expectedResponse;
+    ExceptionLog expectedResponse;
 
 
     @BeforeAll
@@ -33,7 +34,7 @@ public class ExceptionRepositoryWebclientTest {
 
         objectMapper = new ObjectMapper();
 
-        expectedResponse = new HashMap<>(getExampleExceptionLog());
+        expectedResponse =getExampleExceptionLog();
     }
 
     @AfterAll
@@ -58,13 +59,8 @@ public class ExceptionRepositoryWebclientTest {
 
     }
 
-    private HashMap<String, Object> getExampleExceptionLog() {
-        HashMap<String, Object> exceptionLog = new HashMap<>();
-        exceptionLog.put("name","exceptionName");
-        exceptionLog.put("type","exceptionType");
-        exceptionLog.put("message","message");
-        exceptionLog.put("trace", "stackTrace");
-        exceptionLog.put("cobDate","date");
+    private ExceptionLog getExampleExceptionLog() {
+        ExceptionLog exceptionLog = new ExceptionLog(1, "exceptionName", "exceptionType","message","stackTrace",new Date());
 
         return exceptionLog;
     }

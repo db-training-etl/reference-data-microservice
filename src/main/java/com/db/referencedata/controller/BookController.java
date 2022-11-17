@@ -10,7 +10,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.io.IOException;
 import java.util.List;
 @Validated
 @RestController
@@ -46,6 +45,6 @@ public class BookController {
 
     @PutMapping("chunk")
     public ResponseEntity<List<Book>> saveChunk(@Valid @RequestBody ChunkBooks chunkBooks) throws ListEmptyException {
-        return new ResponseEntity<>(bookService.saveAll(chunkBooks.getChunkList()), HttpStatus.OK);
+        return new ResponseEntity<>(bookService.saveChunk(chunkBooks.getChunkList()), HttpStatus.OK);
     }
 }

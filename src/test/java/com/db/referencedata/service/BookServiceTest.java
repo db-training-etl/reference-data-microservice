@@ -58,7 +58,7 @@ public class BookServiceTest {
     public void findAllBooks_EmptyList_Test() throws ListEmptyException {
         books = new LinkedList<>();
 
-        when(bookRepository.findAll()).thenReturn(books);
+        when(bookRepository.findAll()).thenReturn(new LinkedList<>());
 
         assertThrows(ListEmptyException.class, () -> bookService.findAll());
     }
@@ -79,8 +79,34 @@ public class BookServiceTest {
 
         when(bookRepository.saveAll(any())).thenReturn(books);
 
-        assertNotNull(bookService.saveAll(new LinkedList<>()));
         assertEquals(bookService.saveAll(books),books);
+    }
+
+    @Test
+    public void saveMultipleBooks_ListEmpty_Test(){
+        books = new LinkedList<>();
+
+        when(bookRepository.saveAll(any())).thenReturn(books);
+
+        assertThrows(ListEmptyException.class, () -> bookService.saveAll(books));
+    }
+
+    @Test
+    public void saveChunkTest() throws ListEmptyException {
+        books = getExampleBooks();
+
+        when(bookRepository.saveAll(any(List.class))).thenReturn(books);
+
+        assertEquals(bookService.saveChunk(books),books);
+    }
+
+    @Test
+    public void saveChunk_EmptyList_Test() throws ListEmptyException {
+        books = new LinkedList<>();
+
+        when(bookRepository.saveAll(any(List.class))).thenReturn(books);
+
+        assertThrows(ListEmptyException.class, () -> bookService.saveChunk(books));
     }
 
 }
