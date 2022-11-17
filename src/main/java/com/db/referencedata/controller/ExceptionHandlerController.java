@@ -31,30 +31,12 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         return new ResponseEntity<>(exceptionLog, HttpStatus.BAD_REQUEST);
     }
 
-/*    @ExceptionHandler(ListEmptyException.class)
-    public ResponseEntity<HashMap<String, Object>> handleNoContentException(ListEmptyException exception) {
-
-        //HashMap<String, Object> exceptionLog = convertExceptionToLog(exception);
-
-        //sendExceptionLogToService(exceptionLog);
-
+    @ExceptionHandler(ListEmptyException.class)
+    public ResponseEntity<ExceptionLog> handleNoContentException(ListEmptyException exception) {
+        ExceptionLog exceptionLog = convertExceptionToExceptionObject(exception);
+        exceptionSenderService.sendException(exceptionLog);
         return new ResponseEntity<>(exceptionLog, HttpStatus.NO_CONTENT);
-    }*/
-
-
-   /* public HashMap<String, Object> convertExceptionToLog(Exception exception){
-        StringWriter errors = new StringWriter();
-        exception.printStackTrace(new PrintWriter(errors));
-
-        HashMap<String,Object> exceptionLog = new HashMap<>();
-        exceptionLog.put("name",exception.getClass());
-        exceptionLog.put("type",exception.getClass());
-        exceptionLog.put("message",exception.getMessage());
-        exceptionLog.put("trace",errors.getBuffer());
-        exceptionLog.put("cobDate",new Date());
-
-        return exceptionLog;
-    }*/
+    }
 
     public ExceptionLog convertExceptionToExceptionObject(Exception exception){
         StringWriter errors = new StringWriter();
@@ -65,7 +47,7 @@ public class ExceptionHandlerController extends ResponseEntityExceptionHandler {
         exceptionLog.setName(exception.getClass().toString());
         exceptionLog.setType(exception.getClass().toString());
         exceptionLog.setMessage(exception.getMessage());
-        exceptionLog.setTrace("trace");
+        exceptionLog.setTrace(errors.getBuffer().toString());
         exceptionLog.setCobDate(new Date());
 
         return exceptionLog;
