@@ -38,6 +38,18 @@ public class BookService {
     }
 
     public List<Book> saveAll(List<Book> books) {
-        return bookRepository.saveAll(books);
+        if(books.isEmpty())
+            throw new ListEmptyException("List of books is empty");
+        else{
+            return bookRepository.saveAll(books);
+        }
+    }
+
+    public List<Book> saveChunk(List<Book> books) throws ListEmptyException {
+        if(books.isEmpty())
+            throw new ListEmptyException("List of books is empty");
+        else{
+            return bookRepository.saveAll(books);
+        }
     }
 }

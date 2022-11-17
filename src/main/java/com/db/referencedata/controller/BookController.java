@@ -1,14 +1,18 @@
 package com.db.referencedata.controller;
 
 import com.db.referencedata.entity.Book;
+import com.db.referencedata.entity.ChunkBooks;
 import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.BookService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
+import java.io.IOException;
 import java.util.List;
-
+@Validated
 @RestController
 @RequestMapping("books")
 public class BookController {
@@ -30,13 +34,18 @@ public class BookController {
     }
 
     @PutMapping("")
-    public ResponseEntity<Book> save(@RequestBody Book book) {
+    public ResponseEntity<Book> save(@Valid @RequestBody Book book) {
         bookService.save(book);
-        return new ResponseEntity<Book>(book, HttpStatus.OK);
+        return new ResponseEntity<>(book, HttpStatus.OK);
     }
 
     @PutMapping("bulk")
-    public ResponseEntity<List<Book>> saveAll(@RequestBody List<Book> books) {
-        return new ResponseEntity<List<Book>>(bookService.saveAll(books), HttpStatus.OK);
+    public ResponseEntity<List<Book>> saveAll(@RequestBody List<@Valid Book> books) throws ListEmptyException {
+        return new ResponseEntity<>(bookService.saveAll(books), HttpStatus.OK);
+    }
+
+    @PutMapping("chunk")
+    public ResponseEntity<List<Book>> saveChunk(@Valid @RequestBody ChunkBooks chunkBooks) throws ListEmptyException {
+        return new ResponseEntity<>(bookService.saveAll(chunkBooks.getChunkList()), HttpStatus.OK);
     }
 }

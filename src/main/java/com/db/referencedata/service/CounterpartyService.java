@@ -38,13 +38,11 @@ public class CounterpartyService {
     }
 
     public List<Counterparty> saveAll(List<Counterparty> counterparties) throws ListEmptyException {
-
         if(counterparties.isEmpty())
             throw new ListEmptyException("List of counterparties is empty");
         else{
             return counterpartyRepository.saveAll(counterparties);
         }
-
     }
 
     public List<Counterparty> saveChunk(List<Counterparty> counterparties) throws ListEmptyException {
