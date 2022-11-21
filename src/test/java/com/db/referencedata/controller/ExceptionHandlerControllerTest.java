@@ -1,6 +1,7 @@
 package com.db.referencedata.controller;
 
 
+import com.db.referencedata.entity.ExceptionLog;
 import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.exception.ResourceNotFoundException;
 import com.db.referencedata.service.ExceptionSenderService;
@@ -10,8 +11,6 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-
-import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -34,23 +33,23 @@ public class ExceptionHandlerControllerTest {
     }
 
 
-/*
+
     @Test
     public void recieveExceptionAndRespondWithBadRequest_Test() throws Exception{
         ResourceNotFoundException resourceNotFoundException = new ResourceNotFoundException("");
 
-        ResponseEntity<HashMap<String, Object>> actualResponse = exceptionHandlerController.handleBadRequestException(resourceNotFoundException);
+        ResponseEntity<ExceptionLog> actualResponse = exceptionHandlerController.handleBadRequestException(resourceNotFoundException);
 
         assertEquals(HttpStatus.BAD_REQUEST, actualResponse.getStatusCode());
     }
-*/
 
-   /* @Test
+
+    @Test
     public void recieveExceptionAndRespondWithNoContent_Test() throws Exception{
         ListEmptyException listEmptyException = new ListEmptyException("");
 
-        ResponseEntity<HashMap<String, Object>> actualResponse = exceptionHandlerController.handleNoContentException(listEmptyException);
+        ResponseEntity<ExceptionLog> actualResponse = exceptionHandlerController.handleNoContentException(listEmptyException);
 
         assertEquals(HttpStatus.NO_CONTENT, actualResponse.getStatusCode());
-    }*/
+    }
 }

@@ -1,5 +1,8 @@
 package com.db.referencedata.controller;
 
+import com.db.referencedata.entity.Book;
+import com.db.referencedata.entity.ChunkBooks;
+import com.db.referencedata.entity.ChunkCounterparties;
 import com.db.referencedata.entity.Counterparty;
 import com.db.referencedata.exception.ListEmptyException;
 import com.db.referencedata.service.CounterpartyService;
@@ -10,9 +13,9 @@ import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
-import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 
@@ -21,6 +24,8 @@ public class CounterpartyControllerTest {
     CounterpartyService counterpartyService;
     CounterpartyController counterpartyController;
     List<Counterparty> counterparties;
+
+    ChunkCounterparties chunk;
 
     @BeforeEach
     void setup() {
@@ -67,4 +72,24 @@ public class CounterpartyControllerTest {
         assertEquals(response, counterpartyController.saveAll(counterparties));
     }
 
+    @Test
+    public void saveChunkTest(){
+        chunk = getExampleChunkCounterparties();
+        ResponseEntity<List<Counterparty>> response = new ResponseEntity<>(chunk.getChunkList(), HttpStatus.OK);
+
+        given(counterpartyService.saveChunk(any(List.class))).willAnswer((invocation) -> invocation.getArgument(0));
+
+        assertEquals(response, counterpartyController.saveChunk(chunk));
+    }
+
+    public ChunkCounterparties getExampleChunkCounterparties(){
+        ChunkCounterparties chunk = new ChunkCounterparties();
+
+        chunk.setProcessId(1);
+        chunk.setNumChunks(1);
+        chunk.setSize(10);
+        chunk.setChunkList(getExampleCounterparties());
+
+        return chunk;
+    }
 }
