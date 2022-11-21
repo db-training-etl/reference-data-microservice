@@ -1,10 +1,10 @@
 package com.db.referencedata.repository;
 
+import com.db.referencedata.entity.ExceptionLog;
 import org.springframework.stereotype.Repository;
 import org.springframework.web.reactive.function.BodyInserters;
 import org.springframework.web.reactive.function.client.WebClient;
-
-import java.util.HashMap;
+import reactor.core.publisher.Mono;
 
 @Repository
 public class ExceptionRepositoryWebClient implements ExceptionRepository {
@@ -15,7 +15,7 @@ public class ExceptionRepositoryWebClient implements ExceptionRepository {
 
     //Constructor for microservice consumer
     public ExceptionRepositoryWebClient() {
-        this.url = "localhost:8334"; //random port
+        this.url = "http://localhost:8081"; //random port
         webClient = WebClient.create(url);
     }
 
@@ -25,14 +25,13 @@ public class ExceptionRepositoryWebClient implements ExceptionRepository {
         webClient = WebClient.create(url);
     }
 
-
     @Override
-    public void sendException(HashMap exceptionLog) {
+    public void sendException(ExceptionLog exceptionLog) {
         webClient.post()
-            .uri(uriBuilder -> uriBuilder.path("/exceptions").build())
-            .body(BodyInserters.fromValue(exceptionLog))
-            .retrieve()
-            .bodyToMono(HashMap.class)
-            .block();
+                .uri("/exceptions")
+                .body(BodyInserters.fromValue(exceptionLog))
+                .retrieve()
+                .toEntity(ExceptionLog.class)
+                .block();
     }
 }

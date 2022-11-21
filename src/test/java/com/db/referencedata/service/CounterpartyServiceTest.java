@@ -13,8 +13,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 
-import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparties;
-import static com.db.referencedata.utils.ReferenceDataUtils.getExampleCounterparty;
+import static com.db.referencedata.utils.ReferenceDataUtils.*;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -23,8 +22,6 @@ public class CounterpartyServiceTest {
 
     @Mock
     CounterpartyRepository counterpartyRepository;
-    @Mock
-    ExceptionSenderService exceptionSenderService;
 
     @InjectMocks
     CounterpartyService counterpartyService;
@@ -82,8 +79,33 @@ public class CounterpartyServiceTest {
 
         when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
 
-        assertNotNull(counterpartyService.saveAll(new LinkedList<>()));
         assertEquals(counterpartyService.saveAll(counterparties),counterparties);
     }
 
+    @Test
+    public void saveMultipleCounterparties_ListEmpty_Test(){
+        counterparties = new LinkedList<>();
+
+        when(counterpartyRepository.saveAll(any())).thenReturn(counterparties);
+
+        assertThrows(ListEmptyException.class, () -> counterpartyService.saveAll(counterparties));
+    }
+
+    @Test
+    public void saveChunkTest() throws ListEmptyException {
+        counterparties = getExampleCounterparties();
+
+        when(counterpartyRepository.saveAll(any(List.class))).thenReturn(counterparties);
+
+        assertEquals(counterpartyService.saveChunk(counterparties),counterparties);
+    }
+
+    @Test
+    public void saveChunk_EmptyList_Test() throws ListEmptyException {
+        counterparties = new LinkedList<>();
+
+        when(counterpartyRepository.saveAll(any(List.class))).thenReturn(counterparties);
+
+        assertThrows(ListEmptyException.class, () -> counterpartyService.saveChunk(counterparties));
+    }
 }

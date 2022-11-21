@@ -2,19 +2,17 @@ package com.db.referencedata.entity;
 
 import lombok.Data;
 
-import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-
+import java.util.List;
 @Data
-@Entity
-public class Book {
+public class ChunkBooks {
     @Id
-    Integer bookId;
+    Integer processId;
     @NotNull
-    String bookName;
+    Integer numChunks;
     @NotNull
-    String bookAddress;
+    Integer size;
     @NotNull
-    String entity;
+    List<Book> chunkList;
 }
